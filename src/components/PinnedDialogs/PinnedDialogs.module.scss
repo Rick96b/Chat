@@ -1,0 +1,30 @@
+.pinnedDialogs {
+
+    &__header {
+        padding: 16px 16px 12px 16px;
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            font-family: 'Plus Jakarta Sans';
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 23px;
+            text-align: center;
+            color: #1B1A57;
+        }
+    }
+
+    &__avatar {
+        width: 24px;
+        height: 24px;
+    }
+
+    &__content {
+        width: calc(100% - 8px);
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-gap: 8px;
+        padding: 12px 16px;
+    }
+}               

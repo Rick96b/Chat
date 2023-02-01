@@ -1,0 +1,56 @@
+@import 'styles/variables.scss';
+
+.pinnedDialog {
+    padding: 16px 16px 20px 16px;
+    background-color: #F7F7F7;
+    font-family: $mainFontFamily;
+    border-radius: 8px;
+
+    .partnerInfo {
+        display: flex;
+    }
+
+    .partnerAvatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .partnerName {
+        margin-left: 8px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        color: $titleTextColor;
+    }
+
+    .lastMessage {
+        margin-top: 12px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: $disableTextColor;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
+.unread {
+    position: relative;
+    background-color: #E8F1FB;
+
+    &::after {
+        content: "";
+
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        width: 12px;
+        height: 12px;
+        background-color: #2F80ED;
+        border-radius: 6px;
+    }
+}

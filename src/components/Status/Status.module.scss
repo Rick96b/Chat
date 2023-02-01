@@ -1,0 +1,26 @@
+.status {
+
+    sup {
+        width: 12px !important;
+        height: 12px !important; 
+        transform: none !important;
+        box-shadow: none !important;
+        border: 2px solid #F9F9F9 !important;
+    }    
+}
+
+.online {
+
+    sup {
+        background-color: #4CE417 !important;
+    }    
+}
+
+.offline {
+
+    sup {
+        background-color: #BDBDBD !important;
+    }    
+}
+
+
