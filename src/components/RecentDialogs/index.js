@@ -5,7 +5,7 @@ import { RecentDialog } from 'components';
 import styles from './RecentDialogs.module.scss';
 import classNames from 'classnames';
 
-const RecentDialogs = ({ dialogs }) => {
+const RecentDialogs = ({ dialogs, activeGroup, changeActiveGroup }) => {
     return (
         <section className={styles.recentDialogs}>
             <div className={styles.recentDialogs__header}>
@@ -13,17 +13,21 @@ const RecentDialogs = ({ dialogs }) => {
                     <SearchOutlined className={styles.recentDialogs__search}/>
             </div>
             <ul className={styles.recentDialogs__groups}>
-                <li className={classNames(styles.recentDialogs__group, styles.recentDialogs__groupActive)}>
-                    <button>All chats</button>
+                <li className={classNames(styles.recentDialogs__group, 
+                        activeGroup == 'All chats' ? styles.recentDialogs__groupActive : '')}>
+                    <button onClick={event => changeActiveGroup(event.target.value)} value='All chats'>All chats</button>
                 </li>
-                <li className={styles.recentDialogs__group}>
-                    <button>Personal</button>
+                <li className={classNames(styles.recentDialogs__group, 
+                        activeGroup == 'Personal' ? styles.recentDialogs__groupActive : '')}>
+                    <button onClick={event => changeActiveGroup(event.target.value)} value='Personal'>Personal</button>
                 </li>
-                <li className={styles.recentDialogs__group}>
-                    <button>Work</button>
+                <li className={classNames(styles.recentDialogs__group, 
+                        activeGroup == 'Work' ? styles.recentDialogs__groupActive : '')}>
+                    <button onClick={event => changeActiveGroup(event.target.value)} value='Work'>Work</button>
                 </li>
-                <li className={styles.recentDialogs__group}>
-                    <button>Group</button>
+                <li className={classNames(styles.recentDialogs__group, 
+                        activeGroup == 'Group' ? styles.recentDialogs__groupActive : '')}>
+                    <button onClick={event => changeActiveGroup(event.target.value)} value='Group'>Group</button>
                 </li>
             </ul>
             <ul className={styles.recentDialogs__dialogs}>

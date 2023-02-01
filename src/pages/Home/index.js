@@ -1,5 +1,6 @@
-import { Avatar } from 'antd';
-import { PinnedDialogs, RecentDialogs } from 'components';
+import { PinnedDialogs } from 'components';
+import { BottomNavigation } from 'components';
+import { RecentDialogs } from 'containers';
 import React from 'react';
 
 import styles from './Home.module.scss';
@@ -34,8 +35,9 @@ const Home = () => {
 
     return (
         <div className={styles.chatHome}>
-            <PinnedDialogs dialogs={dialogs} />
+            <PinnedDialogs dialogs={dialogs}/>
             <RecentDialogs dialogs={dialogs}/>
+            <BottomNavigation />
         </div>
     );
 };
