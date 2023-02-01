@@ -16,8 +16,7 @@ const PinnedDialogs = ({ dialogs }) => {
                     {dialogs.map(dialog => 
                         <li className={styles.pinnedDialog}>
                             <PinnedDialog 
-                                firstname={dialog.firstname} 
-                                lastname={dialog.lastname}
+                                name={dialog.name}
                                 lastMessage={dialog.lastMessage.text}
                                 isOnline={false}
                                 isUnreadMessages={true}
