@@ -5,3 +5,4 @@ export {default as PinnedDialogs} from './PinnedDialogs';
 export {default as RecentDialog} from './RecentDialog';
 export {default as RecentDialogs} from './RecentDialogs';
 export {default as BottomNavigation} from './BottomNavigation';
+export {default as AddNewChatButton} from './AddNewChatButton';

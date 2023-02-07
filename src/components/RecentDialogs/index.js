@@ -5,10 +5,10 @@ import { RecentDialog } from 'components';
 import styles from './RecentDialogs.module.scss';
 import classNames from 'classnames';
 
-const RecentDialogs = ({ dialogs, activeGroup, changeActiveGroup }) => {
+const RecentDialogs = React.forwardRef(({ dialogs, activeGroup, changeActiveGroup }, ref) => {
     return (
-        <section className={styles.recentDialogs}>
-            <div className={styles.recentDialogs__header}>
+        <section className={classNames(styles.recentDialogs, styles.recentDialogsPinnedActive)}>
+            <div ref={ref} className={styles.recentDialogs__header} >
                     <h2>Recent Chats</h2>
                     <SearchOutlined className={styles.recentDialogs__search}/>
             </div>
@@ -44,6 +44,6 @@ const RecentDialogs = ({ dialogs, activeGroup, changeActiveGroup }) => {
             </ul>
         </section>
     );
-};
+});
 
 export default RecentDialogs;

@@ -4,7 +4,7 @@ import React from 'react';
 
 import styles from './PinnedDialogs.module.scss';
 
-const PinnedDialogs = ({ dialogs }) => {
+const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
     return (
         /* Проверить наличие диалогов в целом */
         <section className={styles.pinnedDialogs}>
@@ -12,20 +12,22 @@ const PinnedDialogs = ({ dialogs }) => {
                     <h2>Pinned Chats</h2>
                     <Avatar className={styles.pinnedDialogs__avatar} />
                 </div>
-                <ul className={styles.pinnedDialogs__content}>
-                    {dialogs.map(dialog => 
-                        <li className={styles.pinnedDialog}>
-                            <PinnedDialog 
-                                name={dialog.name}
-                                lastMessage={dialog.lastMessage.text}
-                                isOnline={false}
-                                isUnreadMessages={true}
-                            />
-                        </li>
-                    )}
-                </ul>
+                <div className={styles.pinnedDialogs__contentContainer}>
+                    <ul ref={ref} className={styles.pinnedDialogs__content}>
+                        {dialogs.map(dialog => 
+                            <li className={styles.pinnedDialog}>
+                                <PinnedDialog 
+                                    name={dialog.name}
+                                    lastMessage={dialog.lastMessage.text}
+                                    isOnline={dialog.isOnline}
+                                    isUnreadMessages={!!dialog.unreadCount}
+                                />
+                            </li>
+                        )}
+                    </ul>
+                </div>
         </section>
     );
-};
+});
 
 export default PinnedDialogs;

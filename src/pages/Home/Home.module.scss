@@ -4,4 +4,10 @@
     height: 100%;
     width: 100%;
     position: relative;
+
+    .AddNewChatButton {
+        position: absolute;
+        right: 24px;
+        bottom: 84px;
+    }
 }
