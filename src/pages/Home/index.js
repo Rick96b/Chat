@@ -1,92 +1,13 @@
-import { PinnedDialogs } from 'containers';
-import { BottomNavigation } from 'components';
-import { RecentDialogs } from 'containers';
 import React from 'react';
+import { DialogsStore } from 'store';
 
-import styles from './Home.module.scss';
-import { AddNewChatButton } from 'components';
+import {default as BasePage} from './HomePage';
 
-
-const Home = () => {
-    let dialogs = [
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 8,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 4,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: false,
-          unreadCount: 12,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: false,
-          unreadCount: 0,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 8,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 4,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: false,
-          unreadCount: 12,
-        },
-        {
-          name: 'Valya Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: false,
-          unreadCount: 0,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 8,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: true,
-          unreadCount: 4,
-        },
-        {
-          name: 'Valentine Sidorov',
-          lastMessage: {text:'Lorem ipsum des being the top fisshing text of all time'},
-          isOnline: false,
-          unreadCount: 12,
-        },
-    ]
+const HomePage = () => {
 
     return (
-        <div className={styles.chatHome}>
-            <PinnedDialogs dialogs={dialogs}/>
-            <RecentDialogs dialogs={dialogs}/>
-            <BottomNavigation />
-            <div className={styles.AddNewChatButton} >
-              <AddNewChatButton />
-            </div>
-        </div>
+        <BasePage />
     );
 };
 
-export default Home;
+export {HomePage};

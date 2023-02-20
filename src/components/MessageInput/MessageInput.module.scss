@@ -1,0 +1,74 @@
+@import 'styles/variables.scss';
+
+.messageInput {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 16px;
+    border-top: 1px solid #EDEDED;
+    font-family: $mainFontFamily;
+    background-color: #fff;
+
+    &__stikersButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        margin-right: 14px;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+
+    &__form {
+        flex-grow: 1;
+        margin-right: 14px;
+    }
+
+    &__fileButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        margin-right: 14px;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+            transform: rotate(135deg);
+        }
+    }
+
+    &__sendButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px !important;
+        height: 40px !important;
+        border: none;
+        box-shadow: none;
+        color: #fff;
+        background-color: #2F80ED;
+
+        &:hover {
+            color: #fff !important;
+        }
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+}

@@ -1,44 +1,30 @@
 import React from 'react';
 import { SearchOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 import { RecentDialog } from 'components';
 import styles from './RecentDialogs.module.scss';
 import classNames from 'classnames';
 
-const RecentDialogs = React.forwardRef(({ dialogs, activeGroup, changeActiveGroup }, ref) => {
+
+const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
     return (
         <section className={classNames(styles.recentDialogs, styles.recentDialogsPinnedActive)}>
             <div ref={ref} className={styles.recentDialogs__header} >
-                    <h2>Recent Chats</h2>
-                    <SearchOutlined className={styles.recentDialogs__search}/>
+                <h2>Recent Chats</h2>
+                <SearchOutlined className={styles.recentDialogs__search}/>
             </div>
-            <ul className={styles.recentDialogs__groups}>
-                <li className={classNames(styles.recentDialogs__group, 
-                        activeGroup == 'All chats' ? styles.recentDialogs__groupActive : '')}>
-                    <button onClick={event => changeActiveGroup(event.target.value)} value='All chats'>All chats</button>
-                </li>
-                <li className={classNames(styles.recentDialogs__group, 
-                        activeGroup == 'Personal' ? styles.recentDialogs__groupActive : '')}>
-                    <button onClick={event => changeActiveGroup(event.target.value)} value='Personal'>Personal</button>
-                </li>
-                <li className={classNames(styles.recentDialogs__group, 
-                        activeGroup == 'Work' ? styles.recentDialogs__groupActive : '')}>
-                    <button onClick={event => changeActiveGroup(event.target.value)} value='Work'>Work</button>
-                </li>
-                <li className={classNames(styles.recentDialogs__group, 
-                        activeGroup == 'Group' ? styles.recentDialogs__groupActive : '')}>
-                    <button onClick={event => changeActiveGroup(event.target.value)} value='Group'>Group</button>
-                </li>
-            </ul>
             <ul className={styles.recentDialogs__dialogs}>
-                {dialogs.map(dialog => 
+                {dialogs && dialogs.map(dialog => 
                     <li>
-                        <RecentDialog
-                            name={dialog.name}
-                            lastMessage={dialog.lastMessage}
-                            unreadCount={dialog.unreadCount}
-                            isOnline={dialog.isOnline}
-                        />
+                        <Link to={`dialog/${dialog.id}`} style={{ textDecoration: 'none' }}>
+                            <RecentDialog
+                                name={dialog.name}
+                                lastMessage={dialog.lastMessage}
+                                unreadCount={dialog.unreadCount}
+                                isOnline={dialog.isOnline}
+                            />
+                        </Link>
                     </li>
                 )}
             </ul>

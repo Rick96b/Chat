@@ -1,0 +1,100 @@
+@import 'styles/variables.scss';
+
+.createNewChat {
+    font-family: $mainFontFamily;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 12px 16px;
+    }
+
+    &__headerContentContainer {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    &__backButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+
+    &__title {
+        margin-right: 50%;
+        transform: translateX(50%);
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 23px;
+        text-align: center;
+        color: $titleTextColor;
+    }
+
+    &__searchForm {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    &__createGroupChatButton {
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        background-color: rgb(80, 92, 255);
+        color: #fff;
+        font-family: inherit;
+        font-size: 13px;
+
+        &:hover {
+            color: #fff !important;
+        }
+
+        &:active {
+            color: #fff !important;
+        }
+    }
+
+    &__user {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+    }
+
+    &__userAvatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    &__userInfo {
+        margin-left: 16px;
+    }
+
+    &__userName {
+        font-family: $mainFontFamily;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        color: $titleTextColor;
+    }
+
+    &__userDescription {
+        margin-top: 6px;
+        font-family: $mainFontFamily;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        color: $disableTextColor;
+    }
+}

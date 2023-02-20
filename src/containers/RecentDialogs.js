@@ -1,10 +1,21 @@
-import React from 'react';
-import {RecentDialogs as BaseDialogs} from 'components';
-import { observer } from 'mobx-react-lite';
-import dialogsStore from 'store/dialogsStore';
+import React, { useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { observer } from 'mobx-react-lite';
 
-const RecentDialogs = observer(({dialogs}) => {
+import { RecentDialogs as BaseDialogs } from 'components';
+import { DialogsStore } from 'store';
+
+const RecentDialogs = () => {
+    const [dialogs, setDialogs] = useState([])
+
+    useEffect(() => {
+        if(!dialogs.length) {
+            DialogsStore.fetchAllDialogs();
+        }
+        if(DialogsStore.dialogs) {
+            setDialogs(DialogsStore.dialogs)
+        }
+    }, [DialogsStore.dialogs])
 
     const SwipeHandlers = useSwipeable({ 
         onSwipedUp: 
@@ -14,7 +25,6 @@ const RecentDialogs = observer(({dialogs}) => {
         },         
         onSwipedDown:  
         ({ event }) => {
-            console.log(event.currentTarget.parentNode.offsetHeight)
             event.currentTarget.parentNode.style.transform = `translate3d(0, 292px, 0)`;
             event.currentTarget.parentNode.style.height = `${event.currentTarget.parentNode.offsetHeight - 292}px`;
         },
@@ -24,20 +34,13 @@ const RecentDialogs = observer(({dialogs}) => {
     const refPassthrough = (el) => {
         SwipeHandlers.ref(el);
     }
-
-    const changeActiveGroup = (newGroup) => {
-        dialogsStore.setActiveGroup(newGroup);
-    }
-    
     return (
         <BaseDialogs
             dialogs={dialogs}
-            activeGroup={dialogsStore.activeGroup}
-            changeActiveGroup={changeActiveGroup}
             ref={refPassthrough}
             {...SwipeHandlers}
         />
     );
-});
+};
 
-export default RecentDialogs;
+export default observer(RecentDialogs);

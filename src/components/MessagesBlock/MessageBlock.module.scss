@@ -1,0 +1,15 @@
+.messageBlock {
+    display: flex;
+
+    &__messages {
+        min-width: 0;
+        max-width: 65%;
+    }
+
+    &__avatar {
+        align-self: flex-end;
+        margin-bottom: 4px;
+        width: 40px;
+        height: 40px;
+    }
+}

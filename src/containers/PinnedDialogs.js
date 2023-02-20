@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { observer } from 'mobx-react-lite';
 
 import {PinnedDialogs as BaseDialogs} from 'components';
+import { DialogsStore } from 'store';
 
-const PinnedDialogs = ({ dialogs }) => {
+const PinnedDialogs = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
+    const [dialogs, setDialogs] = useState([])
+
+    useEffect(() => {
+        if(!dialogs.length) {
+            DialogsStore.fetchAllDialogs();
+        }
+        if(DialogsStore.dialogs) {
+            setDialogs(DialogsStore.dialogs)
+        }
+    }, [DialogsStore.dialogs])
+
+
+
  
     const SwipeHandlers = useSwipeable({ 
         onSwipedLeft: 
         ({ event }) => {
-            console.log(Math.ceil(event.currentTarget.childElementCount / 4))
             if (Math.ceil(event.currentTarget.childElementCount / 4) >= currentSlide + 2) {
                 event.currentTarget.style.transform = `translate3d(calc(${(currentSlide+1) * -100}% - ${(currentSlide+1)*8}px), 0, 0)`;
                 setCurrentSlide(currentSlide + 1)
@@ -33,4 +47,4 @@ const PinnedDialogs = ({ dialogs }) => {
     );
 };
 
-export default PinnedDialogs;
+export default observer(PinnedDialogs);

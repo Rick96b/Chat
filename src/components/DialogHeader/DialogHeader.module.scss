@@ -1,0 +1,71 @@
+@import 'styles/variables.scss';
+
+.dialogHeader {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    font-family: $mainFontFamily;
+    border-bottom: 1px solid #EDEDED;
+
+    &__backButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+
+    &__contentContainer {
+        display: flex;
+        margin-left: 16px;
+        align-items: center;
+    }
+
+    &__avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    &__textContainer {
+        margin-left: 10px;
+    }
+
+    &__dialogName {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+        color: #1B1A57;
+    }
+
+    &__dialogData {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #4F5E7B;
+    }
+
+    &__moreButton {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+}

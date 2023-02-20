@@ -1,6 +1,7 @@
 import { Avatar } from 'antd';
 import PinnedDialog from 'components/PinnedDialog';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './PinnedDialogs.module.scss';
 
@@ -14,14 +15,16 @@ const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
                 </div>
                 <div className={styles.pinnedDialogs__contentContainer}>
                     <ul ref={ref} className={styles.pinnedDialogs__content}>
-                        {dialogs.map(dialog => 
+                        {dialogs && dialogs.map(dialog => 
                             <li className={styles.pinnedDialog}>
-                                <PinnedDialog 
-                                    name={dialog.name}
-                                    lastMessage={dialog.lastMessage.text}
-                                    isOnline={dialog.isOnline}
-                                    isUnreadMessages={!!dialog.unreadCount}
-                                />
+                                <Link to={`dialog/${dialog.id}`} style={{ textDecoration: 'none' }}>
+                                    <PinnedDialog 
+                                        name={dialog.name}
+                                        lastMessage={dialog.lastMessage.text}
+                                        isOnline={dialog.isOnline}
+                                        isUnreadMessages={!!dialog.unreadCount}
+                                    />
+                                </Link>
                             </li>
                         )}
                     </ul>
