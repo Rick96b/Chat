@@ -20,7 +20,7 @@ const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
                                 <Link to={`dialog/${dialog.id}`} style={{ textDecoration: 'none' }}>
                                     <PinnedDialog 
                                         name={dialog.name}
-                                        lastMessage={dialog.lastMessage.text}
+                                        lastMessage={dialog.lastMessage}
                                         isOnline={dialog.isOnline}
                                         isUnreadMessages={!!dialog.unreadCount}
                                     />

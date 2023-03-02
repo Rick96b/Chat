@@ -10,9 +10,9 @@ const RecentDialogs = () => {
 
     useEffect(() => {
         if(!dialogs.length) {
-            DialogsStore.fetchAllDialogs();
+            DialogsStore.fetchAllDialogs(result => setDialogs(result));
         }
-        if(DialogsStore.dialogs) {
+        else {
             setDialogs(DialogsStore.dialogs)
         }
     }, [DialogsStore.dialogs])

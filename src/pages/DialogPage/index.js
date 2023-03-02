@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
+import {reaction} from 'mobx'
 
-import { DialogsStore } from 'store';
 import {default as BasePage} from './DialogPage';
+import { DialogsStore } from 'store';
 
-
-const DialogPage = () => {
-    const [messages, setMessages] = useState([])
+const DialogPage = observer(() => {
     let dialogId = useParams().dialogId;
-    
+    let messages = [];
+
     useEffect(() => {
         if(!DialogsStore.messagesList[dialogId]) {
-            DialogsStore.fetchDialogWithMessages(dialogId, result => setMessages(result.messagesList));
+            DialogsStore.fetchDialogWithMessages(dialogId);
         }
-        else if(!DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]) {
-            setMessages([])
-        }
-        else {
-            setMessages(DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]);
-        }
-    }, [DialogsStore.messagesList[dialogId], DialogsStore.activeChannel])
+    })
 
+    
+    reaction(
+        () => DialogsStore.messagesList[dialogId],
+        messagesList => console.log(messagesList)
+    )
+
+    if(DialogsStore.messagesList[dialogId] ) {
+        messages=DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]
+    }
 
 
     return (
-        <BasePage messages={messages}/>
+        <BasePage messages={messages} />
     );
-};
+});
 
-export default observer(DialogPage);
+export  {DialogPage};

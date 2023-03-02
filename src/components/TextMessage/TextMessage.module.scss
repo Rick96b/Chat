@@ -1,15 +1,20 @@
 @import 'styles/variables.scss';
 
 .textMessage {
-    padding: 8px 10px;
     margin: 4px 8px;
-    background-color: #F7F7F7;
     font-family: $mainFontFamily;
-    border-radius: 8px;
-    text-align: right;
 
     &Me {
         background-color: $mainActiveColor;
+    }
+
+    &__container {
+        max-width: 60%;
+        display: inline-flex;
+        background-color: #F7F7F7;
+        padding: 8px 10px;
+        border-radius: 8px;
+        text-align: right;
     }
 
     &__header {
@@ -35,6 +40,7 @@
     }
 
     &__text {
+        width: 100%;
         font-weight: 400;
         font-size: 12px;
         line-height: 18px;

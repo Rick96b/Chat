@@ -1,5 +1,5 @@
-import { makeObservable, observable, action, runInAction } from "mobx"
-import { dialogsApi } from "axiosCore/api";
+import { makeObservable, runInAction, action, observable } from "mobx"
+import { getAllDialogs, getCurrentDialog, getMessages, addMessage } from "firebaseCore/controllers";
 
 class Dialogs {
     dialogs = [];
@@ -11,49 +11,61 @@ class Dialogs {
         makeObservable(this, {
             dialogs: observable,
             currentDialog: observable,
+            messagesList: observable,
             activeChannel: observable,
+            postMessage: action,
             fetchAllDialogs: action,
             fetchDialogWithMessages: action,
+            fetchMessages: action,
             setCurrentDialog: action,
+            fetchCurrentDialog: action,
+            fetchChannelMessages: action,
             setCurrentChannel: action,
         });
     }
+    
 
-    async fetchAllDialogs() {
-        await dialogsApi.getAllDialogs().then(result => {
+    postMessage(message) {
+        addMessage(this.currentDialog.id, this.activeChannel, message)
+        this.messagesList[this.currentDialog.id][this.activeChannel].push(message)
+    } 
+
+    async fetchAllDialogs(callback) {
+        await getAllDialogs().then(result => {
             runInAction(() => {
-                this.dialogs = result.data
+                this.dialogs = result
             })
-        });
+            return result
+        }).then(result => callback(result));
     }
 
-    async fetchDialogWithMessages(dialogId, callback) {       
+    async fetchDialogWithMessages(dialogId) {       
         this.setCurrentDialog(dialogId)
-        this.fetchMessages(dialogId, this.activeChannel, callback)
+        this.fetchMessages(dialogId, this.activeChannel)
     }
 
-    async fetchMessages(dialogId, channel, callback) {
-        await dialogsApi.getMessages(dialogId, channel).then(result => {
+    async fetchMessages(dialogId, channel) {
+        await getMessages(dialogId, channel).then(result => {
             runInAction(() => {
-                this.messagesList[dialogId] = {[channel] : result.data.messagesList}
+                this.messagesList[dialogId] = {[channel] : result}
             })
-            return result.data
-        }).then(result => callback(result)).catch(e => console.log(e.message));
+            return result
+        }).catch(e => console.log(e.message));
     }   
 
     setCurrentDialog(dialogId) {
         let currentDialogInFetchedDialogs = this.dialogs.find(dialog => dialog.id === dialogId)
         if (currentDialogInFetchedDialogs) {
-            this.currentDialog = currentDialogInFetchedDialogs
+            this.currentDialog = {id:dialogId, ...currentDialogInFetchedDialogs}
         } else {
             this.fetchCurrentDialog(dialogId)
         }
     }
 
     async fetchCurrentDialog(dialogId) {
-        await dialogsApi.getCurrentDialog(dialogId).then(result => {
+        await getCurrentDialog(dialogId).then(result => {
             runInAction(() => {
-                this.currentDialog = result.data
+                this.currentDialog = {id:dialogId, ...result}
             })
         });
     }
@@ -65,10 +77,10 @@ class Dialogs {
         }
     }
 
-  
     setCurrentChannel(newChannelId) {
         this.activeChannel = newChannelId;
     }
 }
 
 export default new Dialogs();
+

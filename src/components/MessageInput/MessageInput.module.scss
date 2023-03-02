@@ -29,8 +29,22 @@
     }
 
     &__form {
+        display: flex;
+        align-items: center;
         flex-grow: 1;
-        margin-right: 14px;
+    }
+
+    &__formItem {
+        margin-bottom: 0;
+        
+        &:nth-child(1) {
+            flex-grow: 1;
+        }
+    }
+
+    &__textInput {
+        font-size: 16px;
+        width: 100%;
     }
 
     &__fileButton {
@@ -39,7 +53,7 @@
         justify-content: center;
         width: 24px !important;
         height: 24px !important;
-        margin-right: 14px;
+        margin-left: 14px;
         border: none;
         box-shadow: none;
         color: #4F5E7B;
@@ -57,6 +71,7 @@
         justify-content: center;
         width: 40px !important;
         height: 40px !important;
+        margin-left: 14px;
         border: none;
         box-shadow: none;
         color: #fff;

@@ -17,7 +17,7 @@ const RecentDialog = ({name, lastMessage, unreadCount, isOnline}) => {
                     <Time className={styles.dialog__date} date="Fri Jul 24 2020 16:35:42 GMT+0500 (Екатеринбург, стандартное время)"/>
                 </div>
                 <div className={styles.dialog__bottom}>
-                    <p className={styles.dialog__text}>{ lastMessage.text }</p>
+                    <p className={styles.dialog__text}>{ lastMessage }</p>
                     <div className={classNames(styles.dialog__unread, unreadCount > 0 ? '' : styles.dialog__read)}>
                         <span>{unreadCount > 9 ? '+9' : unreadCount}</span>
                     </div>

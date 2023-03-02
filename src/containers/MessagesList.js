@@ -5,19 +5,26 @@ import { ChooseCorrectMessageType,  SeparateMessagesOnBlocks } from 'utils';
 import { DialogsStore } from 'store';
 
 const MessagesList = ({ messages }) => {
-    let correctMessages = messages.map((message) => 
-        ChooseCorrectMessageType(message)
-    )
+    
+    if(messages) {
+        let correctMessages = messages.map((message) => 
+            ChooseCorrectMessageType(message)
+        )
 
-    if (DialogsStore.currentDialog.isGroup) {
-        let blocksOfMessages = SeparateMessagesOnBlocks(correctMessages)
+        if (DialogsStore.currentDialog.isGroup) {
+            let blocksOfMessages = SeparateMessagesOnBlocks(correctMessages)
+            return (
+                <BaseList items={blocksOfMessages} />
+            );
+        }
+
         return (
-            <BaseList items={blocksOfMessages} />
-        );
+            <BaseList items={correctMessages} />
+        )
     }
 
     return (
-        <BaseList items={correctMessages} />
+        <BaseList items={messages} />
     )
    
 };

@@ -2,23 +2,18 @@
 
 .dialogChannels {
     $self: &;
-
     width: 100%;
     position: absolute;
-    bottom: 57px;
     display: flex;
     flex-direction: column;
     font-family: $mainFontFamily;
     border-top: 1px solid #EDEDED;
-    transition: all 0.3s;
-    transform: translate3d(0, 192px, 0);
+    transition: transform 0.3s;
     background-color: #fff;
 
 
     &Active {
-        transform: none;
-        background-color: #fff;
-        z-index: 5;
+        transform: translate3d(0, -192px, 0);
 
         #{$self}__title {
             transform: none;
@@ -28,6 +23,10 @@
         #{$self}__name {
             transform:  translateX(calc(-100% - 16px));
             position: absolute;
+        }
+
+        #{$self}__list {
+            height: 192px;
         }
     }
 
@@ -72,8 +71,9 @@
     }
 
     &__list {
-        height: 192px;
         overflow: auto;
+        height: 0;
+        transition: height 0.3s 0.0001s;
     }
 
     &__channelSwitchButton {
