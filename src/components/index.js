@@ -12,3 +12,5 @@ export {default as DialogChannels} from './DialogChannels';
 export {default as TextMessage} from './TextMessage';
 export {default as MessagesList} from './MessagesList';
 export {default as MessagesBlock} from './MessagesBlock';
+export {default as LoginForm} from './LoginForm';
+export {default as RegisterForm} from './RegisterForm';

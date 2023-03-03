@@ -1,0 +1,65 @@
+@import 'styles/variables.scss';
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: $mainFontFamily;
+    font-weight: 400;
+
+    &__top {
+        font-size: 1.5em;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &__socialNetworksList {
+        display: flex;
+        margin: 20px 0 20px;
+    }
+
+    &__socialNetworksItem {
+        margin: 0 5px 0;
+    }
+
+    &__input {
+        background-color: #eee;
+        border-radius: 0;
+
+        input {
+            background-color: inherit;
+        }
+    }
+
+    &__forgotPasswordButton {
+        display: block;
+        border: 0;
+        margin: 0 auto 0;
+        font-size: 1em;
+        font-family: 'Roboto';
+        color: #333;
+        background-color: inherit;
+        cursor: pointer;
+    }
+
+    &__submitButton {
+        display: block;
+        margin: 0 auto 0;
+        padding: 12px 45px;
+        background-color: $mainActiveColor;
+        border: 1px solid $mainActiveColor;
+        border-radius: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-family: 'Roboto';
+        letter-spacing: 0.5px;
+        cursor: pointer;
+
+        &:active {
+        transform: scale(0.95);
+        transition: all 0.2s;
+        }
+    }
+}
