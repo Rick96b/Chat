@@ -3,9 +3,10 @@ import React from 'react';
 import { MessagesList as BaseList} from 'components';
 import { ChooseCorrectMessageType,  SeparateMessagesOnBlocks } from 'utils';
 import { DialogsStore } from 'store';
+import { observer } from 'mobx-react';
 
 const MessagesList = ({ messages }) => {
-    
+
     if(messages) {
         let correctMessages = messages.map((message) => 
             ChooseCorrectMessageType(message)
@@ -24,9 +25,9 @@ const MessagesList = ({ messages }) => {
     }
 
     return (
-        <BaseList items={messages} />
+        <BaseList items={[]}/>
     )
    
 };
 
-export default MessagesList;
+export default observer(MessagesList);

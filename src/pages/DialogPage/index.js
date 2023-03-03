@@ -6,9 +6,9 @@ import {reaction} from 'mobx'
 import {default as BasePage} from './DialogPage';
 import { DialogsStore } from 'store';
 
-const DialogPage = observer(() => {
+const DialogPage = () => {
     let dialogId = useParams().dialogId;
-    let messages = [];
+    let messages;
 
     useEffect(() => {
         if(!DialogsStore.messagesList[dialogId]) {
@@ -16,20 +16,13 @@ const DialogPage = observer(() => {
         }
     })
 
-    
-    reaction(
-        () => DialogsStore.messagesList[dialogId],
-        messagesList => console.log(messagesList)
-    )
-
-    if(DialogsStore.messagesList[dialogId] ) {
-        messages=DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]
+    if (DialogsStore.messagesList[dialogId]) {
+        messages = DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]
     }
-
 
     return (
         <BasePage messages={messages} />
     );
-});
+};
 
-export  {DialogPage};
+export default observer(DialogPage);

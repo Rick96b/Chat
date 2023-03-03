@@ -7,12 +7,12 @@ import classNames from 'classnames';
 import styles from './DialogChannels.module.scss';
 
 
-const DialogChannels = ({ isOpen, channelsListHandler, changeChannel }) => {
+const DialogChannels = ({ isOpen, channelsListHandler, changeChannel, activeChannel }) => {
     return (
         <section className={classNames(styles.dialogChannels, isOpen ? styles.dialogChannelsActive : '')}>
             <div className={styles.dialogChannels__currentDialogContainer}>
                 <h2 className={styles.dialogChannels__title}>Channels</h2>
-                <p className={styles.dialogChannels__name} id='currentChannel'># General</p>
+                <p className={styles.dialogChannels__name} id='currentChannel'>{`#${activeChannel}`}</p>
                 <Button 
                     icon={<UpOutlined />} 
                     onClick={() => channelsListHandler()} 

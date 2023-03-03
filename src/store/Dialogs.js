@@ -21,13 +21,14 @@ class Dialogs {
             fetchCurrentDialog: action,
             fetchChannelMessages: action,
             setCurrentChannel: action,
+            addMessageToList: action
         });
     }
     
 
     postMessage(message) {
+        this.addMessageToList(message)
         addMessage(this.currentDialog.id, this.activeChannel, message)
-        this.messagesList[this.currentDialog.id][this.activeChannel].push(message)
     } 
 
     async fetchAllDialogs(callback) {
@@ -70,11 +71,15 @@ class Dialogs {
         });
     }
 
-    async fetchChannelMessages(channelId, callback) {
+    fetchChannelMessages(channelId, callback) {
         this.setCurrentChannel(channelId)
         if(!this.messagesList[this.currentDialog.id][channelId]) {
             this.fetchMessages(this.currentDialog.id, channelId, callback)
         }
+    }
+
+    addMessageToList(message) {
+        this.messagesList[this.currentDialog.id][this.activeChannel].push(message)
     }
 
     setCurrentChannel(newChannelId) {

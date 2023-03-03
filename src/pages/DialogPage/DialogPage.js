@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 
 import styles from './DialogPage.module.scss';
 
-const DialogPage = ({ messages, isGroup }) => {
+const DialogPage = ({ messages }) => {
     const pageRef = useRef()
     const messageListRef = useRef();
 
