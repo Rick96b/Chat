@@ -1,9 +1,13 @@
 import { RegisterForm } from 'components';
+import { registerUser } from 'firebaseCore/authControllers';
+import { UsersStore } from 'store';
+import { getGeneralChatLink } from 'firebaseCore/controllers';
 import { withFormik } from 'formik';
 import { validator } from 'utils';
 
 export default withFormik({
     mapPropsToValues: () => ({
+        login: "",
         email: "",
         password: ""
     }), 
@@ -12,15 +16,18 @@ export default withFormik({
         let errors = {};
         const keys = Object.keys(values)
         keys.forEach(key => validator[key] && validator[key](errors, values[key]))
-        console.log(errors)
         return errors;
     },
   
     handleSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 1000);
+      const user = {
+        login: values.login,
+        email: values.email,
+        password: values.password,
+        chats: [getGeneralChatLink()]
+      }
+      UsersStore.registerUser(user)
+      setSubmitting(false);
     },
   
     displayName: 'RegisterForm',

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RecentDialog } from 'components';
 import styles from './RecentDialogs.module.scss';
 import classNames from 'classnames';
+import { observer } from 'mobx-react';
 
 
 const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
@@ -32,4 +33,4 @@ const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
     );
 });
 
-export default RecentDialogs;
+export default observer(RecentDialogs);

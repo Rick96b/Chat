@@ -10,7 +10,7 @@ const DialogChannels = () => {
 
     const changeChannel = event => {
         changeChannelView(event)
-        DialogsStore.fetchChannelMessages(event.currentTarget.id);
+        DialogsStore.setActiveChannel(event.currentTarget.id);
         setIsOpen(false);
     }
 

@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import {reaction} from 'mobx'
+import {useCollectionData} from 'react-firebase-hooks/firestore'
 
 import {default as BasePage} from './DialogPage';
 import { DialogsStore } from 'store';
+import { db } from 'firebaseCore';
+import { collection, orderBy, query } from 'firebase/firestore';
 
 const DialogPage = () => {
     let dialogId = useParams().dialogId;
-    let messages;
+    const [messages, loading] = useCollectionData(
+        query(collection(db, 'dialogs', dialogId, 'channels', DialogsStore.activeChannel, 'messages'), orderBy('createdAt'))
+    );
 
-    useEffect(() => {
-        if(!DialogsStore.messagesList[dialogId]) {
-            DialogsStore.fetchDialogWithMessages(dialogId);
-        }
-    })
-
-    if (DialogsStore.messagesList[dialogId]) {
-        messages = DialogsStore.messagesList[dialogId][DialogsStore.activeChannel]
+    if(DialogsStore.currentDialog.id !== dialogId) {
+        DialogsStore.setCurrentDialog(dialogId)
     }
 
+    
     return (
         <BasePage messages={messages} />
     );

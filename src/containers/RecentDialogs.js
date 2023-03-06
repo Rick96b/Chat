@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSwipeable } from 'react-swipeable';
-import { observer } from 'mobx-react-lite';
-
 import { RecentDialogs as BaseDialogs } from 'components';
 import { DialogsStore } from 'store';
+import { observer } from 'mobx-react-lite';
 
 const RecentDialogs = () => {
-    const [dialogs, setDialogs] = useState([])
-
-    useEffect(() => {
-        if(!dialogs.length) {
-            DialogsStore.fetchAllDialogs(result => setDialogs(result));
-        }
-        else {
-            setDialogs(DialogsStore.dialogs)
-        }
-    }, [DialogsStore.dialogs])
 
     const SwipeHandlers = useSwipeable({ 
         onSwipedUp: 
@@ -37,7 +26,7 @@ const RecentDialogs = () => {
     
     return (
         <BaseDialogs
-            dialogs={dialogs}
+            dialogs={DialogsStore.dialogs}
             ref={refPassthrough}
             {...SwipeHandlers}
         />

@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
-import { observer } from 'mobx-react-lite';
-
 import {PinnedDialogs as BaseDialogs} from 'components';
+import { observer } from 'mobx-react-lite';
 import { DialogsStore } from 'store';
 
 const PinnedDialogs = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [dialogs, setDialogs] = useState([])
-
-    useEffect(() => {
-        if(!dialogs.length) {
-            DialogsStore.fetchAllDialogs(result => setDialogs(result));
-        }
-        else {
-            setDialogs(DialogsStore.dialogs)
-        }
-    }, [DialogsStore.dialogs])
-
-
-
  
     const SwipeHandlers = useSwipeable({ 
         onSwipedLeft: 
@@ -43,7 +29,7 @@ const PinnedDialogs = () => {
     }
 
     return (
-        <BaseDialogs dialogs={dialogs} {...SwipeHandlers} ref={refPassthrough}/>
+        <BaseDialogs dialogs={DialogsStore.dialogs} {...SwipeHandlers} ref={refPassthrough}/>
     );
 };
 

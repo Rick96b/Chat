@@ -61,9 +61,9 @@ const LoginForm = (props) => {
                     </button>
                 </Form.Item>
                 <Form.Item style={{margin: '0'}}>
-                    <button className={styles.authForm__submitButton}>
+                    <Button htmlType="submit" className={styles.authForm__submitButton}>
                         Войти
-                    </button>
+                    </Button>
                 </Form.Item>
             </Form>
         </div>

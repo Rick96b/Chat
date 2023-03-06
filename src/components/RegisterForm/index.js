@@ -57,6 +57,10 @@ const RegisterForm = props => {
                     <Input 
                         size='large' 
                         placeholder="Логин" 
+                        id='login'
+                        value={values.login}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         className={styles.authForm__input}
                     />
                 </Form.Item>
@@ -95,11 +99,9 @@ const RegisterForm = props => {
                         className={styles.authForm__input}
                     />
                 </Form.Item>
-                <Form.Item style={{margin: '0'}}>
-                    <button style={{marginTop: '10px'}} className={styles.authForm__submitButton}>
-                        Зарегистрироваться
-                    </button>
-                </Form.Item>
+                <Button onClick={handleSubmit} htmltype="submit" style={{marginTop: '10px'}} className={styles.authForm__submitButton}>
+                    Зарегистрироваться
+                </Button>
             </Form> 
                    {/*  <div className="auth__success-block">
                         <div>

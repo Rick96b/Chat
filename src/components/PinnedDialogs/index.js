@@ -1,5 +1,6 @@
 import { Avatar } from 'antd';
 import PinnedDialog from 'components/PinnedDialog';
+import { observer } from 'mobx-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -33,4 +34,4 @@ const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
     );
 });
 
-export default PinnedDialogs;
+export default observer(PinnedDialogs);

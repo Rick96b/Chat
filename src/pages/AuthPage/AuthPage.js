@@ -8,33 +8,52 @@ import Waves from 'styles/Waves';
 
 const AuthPage = () => {
     const [activeForm, setActiveForm] = useState('LoginForm')
+    
 
     return (
-        <section className={styles.auth}>
-            <div className={styles.auth__buttons}>
-                <Button size="large" className={styles.auth__switchButton} onClick={() => setActiveForm('RegisterForm')}>Зарегистрироваться</Button>
-                <Button size="large" className={styles.auth__switchButton} onClick={() => setActiveForm('LoginForm')}>Войти</Button>
-            </div>
-            <div 
-                className={styles.auth__formsContainer} 
-                style={activeForm == 'LoginForm' ? {top: '200px'} : {top: '0'}}
-            >
-                <Waves style={{top: '-98px'}}/>
-                <div className={styles.auth__formsSuperContainer}>
+        <section className={styles.authPage}>
+            <div className={styles.authPage__contentContainer}>
+                <div className={styles.authPage__formsContainer}>
                     <div 
-                        className={styles.auth__loginFormContainer} 
-                        style={activeForm == 'LoginForm' ? {top: '100%'} : {top: '0'}}
+                        className={styles.authPage__form}
+                        style={activeForm == 'LoginForm' 
+                            ? {right: "50%", transform: 'translateX(50%)'}
+                            : {right: "150%", transform: 'translateX(50%)'}}
+                    >
+                        <LoginForm />
+                    </div>
+                    <div 
+                        className={styles.authPage__form}
+                        style={activeForm == 'LoginForm' 
+                            ? {left: "150%", transform: 'translateX(-50%)'}
+                            : {left: "50%", transform: 'translateX(-50%)'}}
                     >
                         <RegisterForm />
                     </div>
-                    <div 
-                        className={styles.auth__registerFormContainer} 
-                        style={activeForm == 'LoginForm' ? {bottom: '0'} : {bottom: '100%'}}
-                    >
-                        <LoginForm/>
-                    </div>
                 </div>
-                <Waves style={{transform: 'rotate(180deg)', bottom: '-98px'}}/>
+                <Waves style={{transform: 'rotate(180deg)'}}/>
+            </div>
+            <div className={styles.authPage__buttonsContainer}>
+                <Button 
+                    shape='round' 
+                    onClick={() => setActiveForm('LoginForm')} 
+                    className={styles.authPage__switchButton}
+                    style={activeForm == 'LoginForm' 
+                        ? {left: "150%", transform: 'translateX(-50%)'}
+                        : {left: "50%", transform: 'translateX(-50%)'}}
+                >
+                    Войти
+                </Button>
+                <Button 
+                    shape='round' 
+                    onClick={() => setActiveForm('RegisterForm')} 
+                    className={styles.authPage__switchButton}
+                    style={activeForm == 'LoginForm' 
+                        ? {right: "50%", transform: 'translateX(50%)'}
+                        : {right: "150%", transform: 'translateX(50%)'}}
+                >
+                    Зарегистрироваться
+                </Button>
             </div>
         </section>
     );
