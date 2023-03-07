@@ -21,10 +21,12 @@ export default withFormik({
   
     handleSubmit: (values, { setSubmitting }) => {
       const user = {
+        avatar: '',
         login: values.login,
         email: values.email,
         password: values.password,
-        chats: [getGeneralChatLink()]
+        chats: [getGeneralChatLink()],
+        dialogs: []
       }
       UsersStore.registerUser(user)
       setSubmitting(false);

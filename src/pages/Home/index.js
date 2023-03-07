@@ -6,14 +6,20 @@ import {default as BasePage} from './HomePage';
 import { getAllDialogs } from 'firebaseCore/controllers';
 import { auth, db } from 'firebaseCore';
 import { DialogsStore } from 'store';
+import { SetDialogNameAndAvatar } from 'utils';
 
 const HomePage = () => {
-    const [userDoc, loading] = useDocumentData(
+    const [userData, loading] = useDocumentData(
         query(doc(db, 'users', auth.currentUser.uid))
     );
 
-    if(userDoc) {
-        getAllDialogs(userDoc.chats).then(dialogsData => DialogsStore.setDialogs(dialogsData))
+    const [dialogs, ]
+
+    if(userData) {
+        getAllDialogs(userData.chats).then(dialogsData => SetDialogNameAndAvatar(
+            {dialogsData: dialogsData, 
+            authUser: userData}))
+        .then(newDialogsData => DialogsStore.setDialogs(newDialogsData))
     }
 
     return (
