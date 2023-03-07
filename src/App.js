@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import CreateGroupChat from "pages/CreateGroupChat";
-import CreateNewChat from "pages/CreateNewChat";
+import CreateNewChatPage from "pages/CreateNewChatPage";
 import DialogPage  from "pages/DialogPage";
 import { HomePage } from "pages/Home";
 import AuthPage from "pages/AuthPage";
@@ -15,7 +15,7 @@ const App = () => {
   const [user, loading, error] = useAuthState(auth);
 
   if(user) {
-    getCurrentUser(user.uid).then(userData => {
+    getCurrentUser({userUid: user.uid}).then(userData => {
       UsersStore.setCurrentUser(userData)
     })
   }
@@ -33,6 +33,7 @@ const App = () => {
           <Route path='/dialog'> 
             <Route path=":dialogId" element={<DialogPage />} />
           </Route>
+          <Route path='createChat' element={<CreateNewChatPage />} />
           <Route path='*' element={<HomePage />} />
       </Routes>
       :

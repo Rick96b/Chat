@@ -1,5 +1,5 @@
 import { makeObservable, runInAction, action, observable } from "mobx"
-import { getAllDialogs, getCurrentDialog, getMessages, addMessage } from "firebaseCore/controllers";
+import { getCurrentDialog, addMessage, changeLastChatMessage } from "firebaseCore/controllers";
 
 class Dialogs {
     currentDialog = {};
@@ -20,6 +20,9 @@ class Dialogs {
 
     async postMessage(message) {
         addMessage(this.currentDialog.id, this.activeChannel, message)
+        if(!this.currentDialog.isGroup) {
+            changeLastChatMessage(this.currentDialog.id, message)
+        }
     }
 
     async setCurrentDialog(dialogId) {

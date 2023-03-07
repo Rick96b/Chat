@@ -13,7 +13,6 @@ const HomePage = () => {
         query(doc(db, 'users', auth.currentUser.uid))
     );
 
-    const [dialogs, ]
 
     if(userData) {
         getAllDialogs(userData.chats).then(dialogsData => SetDialogNameAndAvatar(
