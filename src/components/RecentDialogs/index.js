@@ -22,7 +22,7 @@ const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
                             <RecentDialog
                                 name={dialog.name}
                                 lastMessage={dialog.lastMessage}
-                                unreadCount={dialog.unreadCount}
+                                unreadCount={dialog.unread}
                                 isOnline={dialog.isOnline}
                             />
                         </Link>

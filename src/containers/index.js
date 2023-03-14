@@ -4,3 +4,4 @@ export {default as DialogChannels} from './DialogChannels';
 export {default as MessagesList} from './MessagesList';
 export {default as MessageInput} from './MessageInput';
 export {default as RegisterForm} from './RegisterForm';
+export {default as DialogHeader} from './DialogHeader';

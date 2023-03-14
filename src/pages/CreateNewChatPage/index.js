@@ -1,8 +1,9 @@
 import { collection, doc, query, where } from 'firebase/firestore';
 import { auth, db } from 'firebaseCore';
-import { getCurrentUser, addChatToUser, addChatToDatabase } from 'firebaseCore/controllers';
+import { addChatToDatabase } from 'firebaseCore/controllers';
 import React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { DialogsStore } from 'store';
 
 import {default as BaseCreateNewChatPage} from './CreateNewChatPage'
 
@@ -13,14 +14,15 @@ const CreateNewChatPage = () => {
 
   const createChatFunc = (user) => {
     const dialog = {
-      lastMessage: 'aghahah',
+      lastMessage: '',
       isGroup: false,
-      partners: [doc(db, 'users', user.uid), doc(db, 'users', auth.currentUser.uid)]
+      partners: [doc(db, 'users', user.uid), doc(db, 'users', auth.currentUser.uid)],
+      unreads: {
+        [user.uid]: 0,
+        [auth.currentUser.uid]: 0
+      }
     }
-    addChatToDatabase(dialog).then(dialogRef => {
-      addChatToUser({userUid: auth.currentUser.uid, chatRef: doc(db, 'dialogs', dialogRef.id)})
-      addChatToUser({userUid: user.uid, chatRef: doc(db, 'dialogs', dialogRef.id)})
-    })
+    DialogsStore.createNewChat(dialog)
   }
 
   return (

@@ -25,8 +25,6 @@ export default withFormik({
         login: values.login,
         email: values.email,
         password: values.password,
-        chats: [getGeneralChatLink()],
-        dialogs: []
       }
       UsersStore.registerUser(user)
       setSubmitting(false);

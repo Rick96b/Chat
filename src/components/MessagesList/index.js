@@ -3,26 +3,39 @@ import React, { useEffect, useRef } from 'react';
 
 import styles from './MessageList.module.scss';
 
-const MessagesList = ({ items }) => {
-    let messageListBottomRef = useRef();
+const MessagesList = ({ items, MessagesReadFunc }) => {
+    let messageListRef = useRef();
 
     const scrollToBottom = () => {
-        messageListBottomRef.current?.scrollBy(0,
+        messageListRef.current?.scrollBy(0,
             Math.max(
-                messageListBottomRef.current.scrollHeight,
-                messageListBottomRef.current.offsetHeight,
-                messageListBottomRef.current.clientHeight
+                messageListRef.current.scrollHeight,
+                messageListRef.current.offsetHeight,
+                messageListRef.current.clientHeight
             )
         );
     }
 
+    const checkVisibilityOfItems = () => {
+        const messageListOffsets = messageListRef.current.getBoundingClientRect()
+        let newItems = [];
+        items.forEach((item, index) => {
+            const itemOffsets = messageListRef.current.childNodes[index].getBoundingClientRect()
+            if(messageListOffsets.height + messageListOffsets.top >= itemOffsets.height + itemOffsets.top) {
+                newItems.push(item)
+            }
+        })
+        MessagesReadFunc(newItems)
+    }
+
+
     useEffect(() => {
-        scrollToBottom()
+        messageListRef.current.addEventListener('scroll', checkVisibilityOfItems)
+        checkVisibilityOfItems()
     })
-    
 
     return (
-        <section className={styles.messagesList} ref={messageListBottomRef}>
+        <section className={styles.messagesList} ref={messageListRef}>
             {items && items.map((item) => 
                 item
             )}

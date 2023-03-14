@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import {useCollectionData} from 'react-firebase-hooks/firestore'
@@ -16,12 +16,10 @@ const DialogPage = () => {
 
     if(DialogsStore.currentDialog.id !== dialogId) {
         DialogsStore.setCurrentDialog(dialogId)
+    } else {
+        return <BasePage messages={messages}/>
     }
 
-    
-    return (
-        <BasePage messages={messages} />
-    );
 };
 
 export default observer(DialogPage);

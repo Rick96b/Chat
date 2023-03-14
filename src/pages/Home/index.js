@@ -1,24 +1,25 @@
-import { doc, query } from 'firebase/firestore';
+import { collection, doc, query, where } from 'firebase/firestore';
 import React from 'react';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
 
 import {default as BasePage} from './HomePage';
-import { getAllDialogs } from 'firebaseCore/controllers';
 import { auth, db } from 'firebaseCore';
 import { DialogsStore } from 'store';
-import { SetDialogNameAndAvatar } from 'utils';
+import { DialogPrepocesser } from 'utils';
+import { UsersStore } from 'store';
 
 const HomePage = () => {
-    const [userData, loading] = useDocumentData(
+    const [userData, userDataLoading] = useDocumentData(
         query(doc(db, 'users', auth.currentUser.uid))
     );
 
 
+
     if(userData) {
-        getAllDialogs(userData.chats).then(dialogsData => SetDialogNameAndAvatar(
-            {dialogsData: dialogsData, 
-            authUser: userData}))
-        .then(newDialogsData => DialogsStore.setDialogs(newDialogsData))
+        UsersStore.setCurrentUser(userData)      
+        if(!DialogsStore.initialized) {
+            DialogsStore.initializeStore(userData);
+        }
     }
 
     return (

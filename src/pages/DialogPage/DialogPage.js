@@ -1,5 +1,4 @@
-import { DialogHeader } from 'components';
-import { DialogChannels, MessagesList, MessageInput } from 'containers';
+import { DialogHeader, DialogChannels, MessagesList, MessageInput } from 'containers';
 import React, { useRef } from 'react';
 
 import styles from './DialogPage.module.scss';

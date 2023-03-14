@@ -4,8 +4,18 @@ import { MessagesList as BaseList} from 'components';
 import { ChooseCorrectMessageType,  SeparateMessagesOnBlocks } from 'utils';
 import { DialogsStore } from 'store';
 import { observer } from 'mobx-react';
+import { UsersStore } from 'store';
 
 const MessagesList = ({ messages }) => {
+    const MessagesReadFunc = (messages) => {
+        console.log(messages)
+        messages.forEach(message => {
+            if(message.props.readed[UsersStore.currentUser.uid] === false) {
+                DialogsStore.readMessage(message.props)
+            }
+        })
+    }
+
 
     if(messages) {
         let correctMessages = messages.map((message) => 
@@ -15,17 +25,17 @@ const MessagesList = ({ messages }) => {
         if (DialogsStore.currentDialog.isGroup) {
             let blocksOfMessages = SeparateMessagesOnBlocks(correctMessages)
             return (
-                <BaseList items={blocksOfMessages} />
+                <BaseList items={blocksOfMessages}  MessagesReadFunc={MessagesReadFunc}/>
             );
         }
 
         return (
-            <BaseList items={correctMessages} />
+            <BaseList items={correctMessages}  MessagesReadFunc={MessagesReadFunc}/>
         )
     }
 
     return (
-        <BaseList items={[]}/>
+        <BaseList items={[]} MessagesReadFunc={MessagesReadFunc}/>
     )
    
 };

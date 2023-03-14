@@ -1,6 +1,6 @@
-const { getCurrentUser } = require("firebaseCore/controllers")
+import { getCurrentUser } from "firebaseCore/controllers";
 
-const SetDialogNameAndAvatar = async ({dialogsData, authUser}) => {
+const DialogPrepocesser = async ({dialogsData, authUser}) => {
     const dialogsDataPromises = dialogsData.map(async (dialog) => {
         if (!dialog.isGroup) {
             const firstUser = await getCurrentUser({userRef: dialog.partners[0]});
@@ -10,7 +10,8 @@ const SetDialogNameAndAvatar = async ({dialogsData, authUser}) => {
                 name: currentUser.login, 
                 avatar: currentUser.avatar, 
                 isOnline: currentUser.isOnline,
-                ...dialog
+                unread: dialog.unreads[authUser.uid],
+                ...dialog,
             }
         }
         return dialog
@@ -18,4 +19,4 @@ const SetDialogNameAndAvatar = async ({dialogsData, authUser}) => {
     return Promise.all(dialogsDataPromises)
 }
 
-export default SetDialogNameAndAvatar;
+export default DialogPrepocesser;
