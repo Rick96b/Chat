@@ -15,18 +15,15 @@ import { Loader } from "components";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
-  const [initializing, setInitializing] = useState(true);
+  const [initializingDialogs, setInitializingDialogs] = useState(true);
 
-  if(user) {
-    getCurrentUser({userUid: user.uid}).then(userData => {
-      UsersStore.setCurrentUser(userData)
-      if(!DialogsStore.initialized) {
-        DialogsStore.initializeStore(userData).then(() => setInitializing(false));
-      }
+  if(user && initializingDialogs) {
+    getCurrentUser({userUid: user.uid}).then(async userData => {
+        await DialogsStore.initializeStore(userData);
+        UsersStore.setCurrentUser(userData)  
+        setInitializingDialogs(false);
     })
-  }
 
-  if(initializing) {
     return (
       <Loader />
     )

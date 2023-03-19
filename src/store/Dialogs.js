@@ -1,9 +1,9 @@
-import { makeObservable, runInAction, action, observable } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase } from "firebaseCore/controllers";
+import { makeObservable, action, observable } from "mobx"
+import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
 import { UsersStore } from "store";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
-import { auth, db } from "firebaseCore";
+import { db } from "firebaseCore";
 import { DialogPrepocesser } from "utils";
 
 class Dialogs {
@@ -29,16 +29,19 @@ class Dialogs {
 
     async initializeStore(user) {
         this.initialized = true;
+        const dialogsDocs = await getUserDialogs(user);
+        this.dialogs = await this.getUserDialogs(user, dialogsDocs);
         onSnapshot(query(collection(db, 'dialogs'), 
-            where('partners', 'array-contains', doc(db, 'users', auth.currentUser.uid))), (dialogsRefs) => {
-            let userDialogs = dialogsRefs.docs.map(dialog => {
-                return {...dialog.data(), id:dialog.id}
-            })
-            DialogPrepocesser(
-                {dialogsData: userDialogs, 
-                authUser: user})
-            .then(newDialogsData => this.dialogs = newDialogsData)
+            where('partners', 'array-contains', doc(db, 'users', user.uid))), async (dialogsDocs) => {
+            this.dialogs = await this.getUserDialogs(user, dialogsDocs)
         });
+    }
+
+    async getUserDialogs(user, dialogsDocs) {
+        let userDialogs = dialogsDocs.docs.map(dialog => {
+            return {...dialog.data(), id:dialog.id}
+        })
+        return await DialogPrepocesser({dialogsData: userDialogs, authUser: user})
     }
 
     async postMessage(message) {
