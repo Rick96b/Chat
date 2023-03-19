@@ -14,3 +14,4 @@ export {default as MessagesList} from './MessagesList';
 export {default as MessagesBlock} from './MessagesBlock';
 export {default as LoginForm} from './LoginForm';
 export {default as RegisterForm} from './RegisterForm';
+export {default as Loader} from './Loader';

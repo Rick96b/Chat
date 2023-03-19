@@ -31,7 +31,6 @@ class Dialogs {
         this.initialized = true;
         onSnapshot(query(collection(db, 'dialogs'), 
             where('partners', 'array-contains', doc(db, 'users', auth.currentUser.uid))), (dialogsRefs) => {
-                console.log('hehe')
             let userDialogs = dialogsRefs.docs.map(dialog => {
                 return {...dialog.data(), id:dialog.id}
             })

@@ -8,21 +8,33 @@ import { Route, Routes } from "react-router-dom";
 import { auth } from "firebaseCore";
 import {useAuthState} from 'react-firebase-hooks/auth';
 
-import { UsersStore } from "store";
+import { UsersStore, DialogsStore } from "store";
 import { getCurrentUser } from "firebaseCore/controllers";
+import { useState } from "react";
+import { Loader } from "components";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
+  const [initializing, setInitializing] = useState(true);
 
   if(user) {
     getCurrentUser({userUid: user.uid}).then(userData => {
       UsersStore.setCurrentUser(userData)
+      if(!DialogsStore.initialized) {
+        DialogsStore.initializeStore(userData).then(() => setInitializing(false));
+      }
     })
+  }
+
+  if(initializing) {
+    return (
+      <Loader />
+    )
   }
 
   if(loading) {
     return (
-      <div>Whata</div>
+      <Loader />
     )
   }
 
