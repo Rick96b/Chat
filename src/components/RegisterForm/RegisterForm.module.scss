@@ -10,7 +10,7 @@
 
     &__top {
         font-size: 1.5em;
-        font-weight: 700;
+        font-weight: 400;
         text-align: center;
     }
 
@@ -24,20 +24,20 @@
     }
 
     &__input {
-        background-color: #eee;
+        min-width: 250px;
         border-radius: 0;
-
-        input {
-            background-color: inherit;
-        }
+        font-family: $mainFontFamily;
+        font-size: 16px;
+        line-height: 24px;
     }
 
     &__forgotPasswordButton {
         display: block;
         border: 0;
         margin: 0 auto 0;
-        font-size: 1em;
-        font-family: 'Roboto';
+        font-size: 14px;
+        line-height: 21px;
+        font-family: $mainFontFamily;
         color: #333;
         background-color: inherit;
         cursor: pointer;
@@ -46,20 +46,21 @@
     &__submitButton {
         display: block;
         margin: 0 auto 0;
-        padding: 12px 45px;
+        padding: 0 45px;
         background-color: $mainActiveColor;
         border: 1px solid $mainActiveColor;
         border-radius: 20px;
         color: #fff;
         text-transform: uppercase;
-        font-size: 0.8em;
-        font-family: 'Roboto';
+        font-size: 14px;
+        line-height: 21px;
+        font-family: $mainFontFamily;
         letter-spacing: 0.5px;
         cursor: pointer;
 
         &:active {
-        transform: scale(0.95);
-        transition: all 0.2s;
+            transform: scale(0.95);
+            transition: all 0.2s;
         }
     }
 }

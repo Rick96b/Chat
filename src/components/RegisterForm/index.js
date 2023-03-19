@@ -86,7 +86,6 @@ const RegisterForm = props => {
                         !touched.password ? '' : errors.password ? 'error' : 'success'
                     }
                     hasFeedback
-                    style={{marginBottom: '16px'}}
                 >
                     <Input
                         type="password"
@@ -99,8 +98,8 @@ const RegisterForm = props => {
                         className={styles.authForm__input}
                     />
                 </Form.Item>
-                <Button onClick={handleSubmit} htmltype="submit" style={{marginTop: '10px'}} className={styles.authForm__submitButton}>
-                    Зарегистрироваться
+                <Button onClick={handleSubmit} htmltype="submit" style={{marginTop: '20px'}} className={styles.authForm__submitButton}>
+                    Регистрация
                 </Button>
             </Form> 
                    {/*  <div className="auth__success-block">
