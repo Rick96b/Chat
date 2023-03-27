@@ -1,7 +1,5 @@
 import { RegisterForm } from 'components';
-import { registerUser } from 'firebaseCore/authControllers';
-import { UsersStore } from 'store';
-import { getGeneralChatLink } from 'firebaseCore/controllers';
+import { RootStore } from 'store';
 import { withFormik } from 'formik';
 import { validator } from 'utils';
 
@@ -26,7 +24,7 @@ export default withFormik({
         email: values.email,
         password: values.password,
       }
-      UsersStore.registerUser(user)
+      RootStore.usersStore.registerUser(user)
       setSubmitting(false);
     },
   

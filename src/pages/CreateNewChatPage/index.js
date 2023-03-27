@@ -1,9 +1,8 @@
 import { collection, doc, query, where } from 'firebase/firestore';
 import { auth, db } from 'firebaseCore';
-import { addChatToDatabase } from 'firebaseCore/controllers';
 import React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { DialogsStore } from 'store';
+import { RootStore } from 'store';
 
 import {default as BaseCreateNewChatPage} from './CreateNewChatPage'
 
@@ -22,7 +21,7 @@ const CreateNewChatPage = () => {
         [auth.currentUser.uid]: 0
       }
     }
-    DialogsStore.createNewChat(dialog)
+    RootStore.dialogsStore.createNewChat(dialog)
   }
 
   return (

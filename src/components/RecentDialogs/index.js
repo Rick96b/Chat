@@ -26,7 +26,7 @@ const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
                                     name={dialog.name}
                                     lastMessage={dialog.lastMessage}
                                     unreadCount={dialog.unread}
-                                    isOnline={dialog.isOnline}
+                                    isOnline={dialog.presenceData && dialog.presenceData.state == 'online' ? true : false}
                                 />
                             </Link>
                         </li>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { RecentDialogs as BaseDialogs } from 'components';
-import { DialogsStore } from 'store';
+import { RootStore } from 'store';
 import { observer } from 'mobx-react-lite';
 
 const RecentDialogs = () => {
@@ -24,9 +24,10 @@ const RecentDialogs = () => {
         SwipeHandlers.ref(el);
     }
     
+    
     return (
         <BaseDialogs
-            dialogs={DialogsStore.dialogs}
+            dialogs={RootStore.dialogsStore.dialogs}
             ref={refPassthrough}
             {...SwipeHandlers}
         />

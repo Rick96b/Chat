@@ -7,3 +7,4 @@ export {default as getCurrentUser} from './getCurrentUser';
 export {default as addChatToDatabase} from './addChatToDatabase';
 export {default as changeLastChatMessage} from './changeLastChatMessage';
 export {default as readCurrentMessage} from './readCurrentMessage';
+export {default as listenForUsersStatuses} from './listenForUsersStatuses';

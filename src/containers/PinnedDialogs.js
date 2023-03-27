@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import {PinnedDialogs as BaseDialogs} from 'components';
 import { observer } from 'mobx-react-lite';
-import { DialogsStore } from 'store';
+import { RootStore } from 'store';
 
 const PinnedDialogs = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
@@ -29,7 +29,7 @@ const PinnedDialogs = () => {
     }
 
     return (
-        <BaseDialogs dialogs={DialogsStore.dialogs} {...SwipeHandlers} ref={refPassthrough}/>
+        <BaseDialogs dialogs={RootStore.dialogsStore.dialogs} {...SwipeHandlers} ref={refPassthrough}/>
     );
 };
 

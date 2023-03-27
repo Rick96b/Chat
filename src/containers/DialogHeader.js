@@ -1,15 +1,13 @@
 import React from 'react';
 import { DialogHeader as BaseDialogHeader } from 'components';
 import { observer } from 'mobx-react';
-import { DialogsStore } from 'store';
-import { getCurrentUser } from 'firebaseCore/controllers';
-import { UsersStore } from 'store';
+import { RootStore } from 'store';
 
 const DialogHeader = () => {
     let dialogName = '';
     let onlineData = '';
 
-    dialogName = DialogsStore.currentDialog.partnersData.filter(partner => partner.uid != UsersStore.currentUser.uid)[0].login
+    dialogName = RootStore.dialogsStore.currentDialog.partnersData.filter(partner => partner.uid != RootStore.usersStore.currentUser.uid)[0].login
 
     return (
         <BaseDialogHeader dialogName={dialogName}/>

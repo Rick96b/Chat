@@ -1,7 +1,6 @@
-import { makeObservable, action, observable } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs } from "firebaseCore/controllers";
+import { makeAutoObservable, reaction } from "mobx"
+import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs, listenForUsersStatuses } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
-import { UsersStore } from "store";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "firebaseCore";
 import { DialogPrepocesser } from "utils";
@@ -13,41 +12,42 @@ class Dialogs {
     dialogs = []
     d = {};
 
-    constructor() {
-        makeObservable(this, {
-            initialized: observable,
-            currentDialog: observable,
-            activeChannel: observable,
-            dialogs: observable,
-            setDialogs: action,
-            setCurrentDialog: action,
-            setActiveChannel: action,
-            postMessage: action,
-            initializeStore: action,
-        });
+    constructor(rootStore) {
+        this.rootStore = rootStore;
+        makeAutoObservable(this);
+
+        const usersStatusUpdated = reaction(
+            () => this.rootStore.usersStore.usersStatus,
+            async () => this.setDialogs(await this.getUserDialogs(this.rootStore.usersStore.currentUser))
+        )
     }
 
     async initializeStore(user) {
         this.initialized = true;
-        const dialogsDocs = await getUserDialogs(user);
-        this.dialogs = await this.getUserDialogs(user, dialogsDocs);
+        this.dialogs = await this.getUserDialogs(user);
         onSnapshot(query(collection(db, 'dialogs'), 
-            where('partners', 'array-contains', doc(db, 'users', user.uid))), async (dialogsDocs) => {
-            this.dialogs = await this.getUserDialogs(user, dialogsDocs)
+            where('partners', 'array-contains', doc(db, 'users', user.uid))), async () => {
+            this.dialogs = await this.getUserDialogs(user)
         });
     }
 
-    async getUserDialogs(user, dialogsDocs) {
-        let userDialogs = dialogsDocs.docs.map(dialog => {
+    async getUserDialogs(user) {
+        const dialogsDocs = await getUserDialogs(user);
+        const userDialogs = dialogsDocs.docs.map(dialog => {
             return {...dialog.data(), id:dialog.id}
         })
-        return await DialogPrepocesser({dialogsData: userDialogs, authUser: user})
+        console.log(user)
+        return await DialogPrepocesser({
+            dialogsData: userDialogs, 
+            authUser: user, 
+            onlineUsers: this.rootStore.usersStore.usersStatus
+        })
     }
 
     async postMessage(message) {
         const unreadedPromises = this.currentDialog.partners.map(async partnerRef => {
             const partner = await getCurrentUser({userRef: partnerRef})
-            if(partner.uid != UsersStore.currentUser.uid) {
+            if(partner.uid != this.rootStore.usersStore.currentUser.uid) {
                 return partner.uid
             }
         })
@@ -77,16 +77,16 @@ class Dialogs {
     }
 
     readMessage(message) {
-        readCurrentMessage(this.currentDialog.id, this.activeChannel, message.id, UsersStore.currentUser.uid)
-        if(message.author != UsersStore.currentUser.uid) {
-            addUnreadCount(this.currentDialog.id, UsersStore.currentUser.uid, -1)
+        readCurrentMessage(this.currentDialog.id, this.activeChannel, message.id, this.rootStore.usersStore.currentUser.uid)
+        if(message.author != this.rootStore.usersStore.currentUser.uid) {
+            addUnreadCount(this.currentDialog.id, this.rootStore.usersStore.currentUser.uid, -1)
         }
     }
 
     changeUnreadCount() {
         this.currentDialog.partners.forEach(partner => {
             getCurrentUser({userRef: partner}).then(user => {
-                if(user.uid !== UsersStore.currentUser.uid) {
+                if(user.uid !== this.rootStore.usersStore.currentUser.uid) {
                     addUnreadCount(this.currentDialog.id, user.uid, 1)
                 }
             })
@@ -106,5 +106,5 @@ class Dialogs {
     }
 }
 
-export default new Dialogs();
+export default Dialogs;
 

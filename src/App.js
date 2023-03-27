@@ -8,10 +8,11 @@ import { Route, Routes } from "react-router-dom";
 import { auth } from "firebaseCore";
 import {useAuthState} from 'react-firebase-hooks/auth';
 
-import { UsersStore, DialogsStore } from "store";
+import { RootStore } from "store";
 import { getCurrentUser } from "firebaseCore/controllers";
 import { useState } from "react";
 import { Loader } from "components";
+import presenceHandler from "firebaseCore/controllers/presenceHandler";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -19,8 +20,10 @@ const App = () => {
 
   if(user && initializingDialogs) {
     getCurrentUser({userUid: user.uid}).then(async userData => {
-        await DialogsStore.initializeStore(userData);
-        UsersStore.setCurrentUser(userData)  
+        presenceHandler(user.uid);
+        await RootStore.dialogsStore.initializeStore(userData);
+        RootStore.usersStore.setCurrentUser(userData);
+        RootStore.usersStore.getOnlineUsers();
         setInitializingDialogs(false);
     })
 
