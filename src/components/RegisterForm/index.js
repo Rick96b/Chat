@@ -15,6 +15,7 @@ const RegisterForm = props => {
         handleChange,
         handleBlur,
         handleSubmit,
+        status,
     } = props;
 
     return (
@@ -86,6 +87,7 @@ const RegisterForm = props => {
                         !touched.password ? '' : errors.password ? 'error' : 'success'
                     }
                     hasFeedback
+                    style={{marginBottom: '0'}}
                 >
                     <Input
                         type="password"
@@ -98,6 +100,9 @@ const RegisterForm = props => {
                         className={styles.authForm__input}
                     />
                 </Form.Item>
+                {status && status.firebaseErrorMessage && 
+                    <p className={styles.authForm__errorMessage}>{status.firebaseErrorMessage}</p>
+                }
                 <Button onClick={handleSubmit} htmltype="submit" style={{marginTop: '20px'}} className={styles.authForm__submitButton}>
                     Регистрация
                 </Button>

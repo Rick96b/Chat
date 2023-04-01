@@ -31,17 +31,13 @@
         line-height: 24px;
     }
 
-    &__forgotPasswordButton {
-        display: block;
-        border: 0;
-        margin: 0 auto 0;
-        font-size: 14px;
-        line-height: 21px;
+    &__errorMessage {
+        margin-top: 5px;
         font-family: $mainFontFamily;
-        color: #333;
-        background-color: inherit;
-        cursor: pointer;
+        font-size: 13px;
+        line-height: 18px;
     }
+
 
     &__submitButton {
         display: block;

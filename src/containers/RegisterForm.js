@@ -17,15 +17,20 @@ export default withFormik({
         return errors;
     },
   
-    handleSubmit: (values, { setSubmitting }) => {
+    handleSubmit: (values, actions) => {
       const user = {
         avatar: '',
         login: values.login,
         email: values.email,
         password: values.password,
       }
-      RootStore.usersStore.registerUser(user)
-      setSubmitting(false);
+      RootStore.usersStore.signUpUser(user).catch(error => {
+        if(error.code == "auth/email-already-in-use") {
+          actions.setStatus({firebaseErrorMessage: "Такая почта уже используется!"})  
+          actions.setFieldValue('email', '')  
+        } 
+      })
+      actions.setSubmitting(false);
     },
   
     displayName: 'RegisterForm',

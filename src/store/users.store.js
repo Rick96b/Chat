@@ -15,8 +15,8 @@ class Users {
         listenForUsersStatuses(onlineUsersArray => this.setUsersStatus(onlineUsersArray))
     }
 
-    registerUser(userData) {
-        registerNewUser(userData).then(userCredential => {
+    signUpUser(userData) {
+        return registerNewUser(userData).then(userCredential => {
             postUser({user:userData, uid:userCredential.user.uid})
             this.setCurrentUser({uid:userCredential.user.uid, ...userData})
         })
