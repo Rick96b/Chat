@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 
 import styles from './PinnedDialogs.module.scss';
 
+
 const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
     return (
-        /* Проверить наличие диалогов в целом */
         <section className={styles.pinnedDialogs}>
                 <div className={styles.pinnedDialogs__header}>
                     <h2>Pinned Chats</h2>

@@ -1,11 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
-import format from "date-fns/format";
+import { format } from "date-fns";
 
-const Time = ({ date, className }) => (
-  <div className={className}>
-    {format(new Date(date), "HH:mm")}
-  </div>
+const Time = ({ date, timestamp, className }) => (
+    <span className={className}>
+      {timestamp ?
+        format(new Date(date.seconds * 1000), "HH:mm")
+        :
+        format(new Date(date), "HH:mm")
+      }
+    </span>
 );
 
 

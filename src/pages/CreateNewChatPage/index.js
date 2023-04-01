@@ -1,5 +1,6 @@
 import { collection, doc, query, where } from 'firebase/firestore';
 import { auth, db } from 'firebaseCore';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { RootStore } from 'store';
@@ -21,12 +22,12 @@ const CreateNewChatPage = () => {
         [auth.currentUser.uid]: 0
       }
     }
-    RootStore.dialogsStore.createNewChat(dialog)
+    RootStore.dialogsStore.createNewChat(dialog, auth.currentUser.uid, user.uid)
   }
 
   return (
-      <BaseCreateNewChatPage users={users} createChatFunc={createChatFunc}/>
+      <BaseCreateNewChatPage users={users} usersStatus={RootStore.usersStore.usersStatus} createChatFunc={createChatFunc}/>
   );
 };
 
-export default CreateNewChatPage;
+export default observer(CreateNewChatPage);

@@ -1,4 +1,4 @@
-import { RegisterForm } from 'components';
+import { RegisterForm as BaseForm} from 'components';
 import { RootStore } from 'store';
 import { withFormik } from 'formik';
 import { validator } from 'utils';
@@ -29,5 +29,5 @@ export default withFormik({
     },
   
     displayName: 'RegisterForm',
-  })(RegisterForm);
+  })(BaseForm);
 

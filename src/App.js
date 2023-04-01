@@ -16,9 +16,9 @@ import presenceHandler from "firebaseCore/controllers/presenceHandler";
 
 const App = () => {
   const [user, loading, error] = useAuthState(auth);
-  const [initializingDialogs, setInitializingDialogs] = useState(true);
+  // const [initializingDialogs, setInitializingDialogs] = useState(true);
 
-  if(user && initializingDialogs) {
+  /* if(user && initializingDialogs) {
     getCurrentUser({userUid: user.uid}).then(async userData => {
         presenceHandler(user.uid);
         await RootStore.dialogsStore.initializeStore(userData);
@@ -30,7 +30,7 @@ const App = () => {
     return (
       <Loader />
     )
-  }
+  } */
 
   if(loading) {
     return (

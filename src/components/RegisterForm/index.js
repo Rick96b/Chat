@@ -49,7 +49,7 @@ const RegisterForm = props => {
                 </li>
             </ul>
             <Form
-                name="normal_login"
+                name="RegisterForm"
                 className={styles.authForm__form}
                 onSubmit={handleSubmit}
             >

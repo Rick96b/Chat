@@ -1,5 +1,5 @@
 import { makeAutoObservable, reaction } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs, listenForUsersStatuses } from "firebaseCore/controllers";
+import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs, listenForUsersStatuses, AddPinnedDialog, getPinnedDialogs, addChatToRelations } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "firebaseCore";
@@ -9,7 +9,8 @@ class Dialogs {
     initialized = false;
     currentDialog = {};
     activeChannel = 'General';
-    dialogs = []
+    dialogs = [];
+    pinnedDialogs = [];
     d = {};
 
     constructor(rootStore) {
@@ -29,6 +30,14 @@ class Dialogs {
             where('partners', 'array-contains', doc(db, 'users', user.uid))), async () => {
             this.dialogs = await this.getUserDialogs(user)
         });
+        onSnapshot(query(collection(db, 'usersDialogsRelations', user.uid, 'dialogs'), 
+            where('isPinned', '==', true)), async () => {
+            this.pinnedDialogs = await this.getPinnedDialogs(user)
+        });
+    }
+
+    pinDialog(dialogId) {
+        AddPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
     }
 
     async getUserDialogs(user) {
@@ -36,9 +45,20 @@ class Dialogs {
         const userDialogs = dialogsDocs.docs.map(dialog => {
             return {...dialog.data(), id:dialog.id}
         })
-        console.log(user)
         return await DialogPrepocesser({
             dialogsData: userDialogs, 
+            authUser: user, 
+            onlineUsers: this.rootStore.usersStore.usersStatus
+        })
+    }
+
+    async getPinnedDialogs(user) {
+        const pinnedDialogsDocs = await getPinnedDialogs(user);
+        const pinnedUserDialogs = pinnedDialogsDocs.map(dialog => {
+            return {...dialog, id:dialog.id}
+        })
+        return await DialogPrepocesser({
+            dialogsData: pinnedUserDialogs, 
             authUser: user, 
             onlineUsers: this.rootStore.usersStore.usersStatus
         })
@@ -93,8 +113,12 @@ class Dialogs {
         })
     }
 
-    createNewChat(chat) {
-        addChatToDatabase(chat)
+    createNewChat(chat, authorizedUserUid, partnerUid) {
+        addChatToDatabase(chat).then(dialogRef => {
+            addChatToRelations(authorizedUserUid, dialogRef.id)
+            addChatToRelations(partnerUid, dialogRef.id)
+        })
+
     }
 
     setActiveChannel(channelId) {

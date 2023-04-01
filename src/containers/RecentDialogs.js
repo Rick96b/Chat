@@ -24,7 +24,6 @@ const RecentDialogs = () => {
         SwipeHandlers.ref(el);
     }
     
-    
     return (
         <BaseDialogs
             dialogs={RootStore.dialogsStore.dialogs}

@@ -29,7 +29,7 @@ const PinnedDialogs = () => {
     }
 
     return (
-        <BaseDialogs dialogs={RootStore.dialogsStore.dialogs} {...SwipeHandlers} ref={refPassthrough}/>
+        <BaseDialogs dialogs={RootStore.dialogsStore.pinnedDialogs} {...SwipeHandlers} ref={refPassthrough}/>
     );
 };
 

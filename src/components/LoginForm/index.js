@@ -5,6 +5,14 @@ import { GooglePlusOutlined, TwitterOutlined, InstagramOutlined } from '@ant-des
 import styles from './LoginForm.module.scss';
 
 const LoginForm = (props) => {
+    const {
+        values,
+        status,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+    } = props;
+
     return (
         <div className={styles.authForm}>
             <div className={styles.authForm__top}>
@@ -37,31 +45,37 @@ const LoginForm = (props) => {
                 </li>
             </ul>
             <Form
-                name="normal_login"
+                name="LoginForm"
                 className={styles.authForm__form}
             >
-                <Form.Item name="username" style={{marginBottom: '16px'}}>
+                <Form.Item name="email" style={{marginBottom: '16px'}}>
                     <Input 
                         size='large' 
-                        placeholder="Username" 
+                        placeholder="Почта" 
+                        id='email'
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         className={styles.authForm__input} 
                     />
                 </Form.Item>
                 <Form.Item name="password" style={{margin: '0'}}> 
                     <Input
                         type="password"
-                        placeholder="Password"
-                        size="large"
+                        size='large'
+                        placeholder="Пароль" 
+                        id="password"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         className={styles.authForm__input} 
                     />
                 </Form.Item>
-                <Form.Item  style={{margin: '15px 0 15px'}}>
-                    <button className={styles.authForm__forgotPasswordButton}>
-                        Забыли пароль?
-                    </button>
-                </Form.Item>
-                <Form.Item style={{margin: '0'}}>
-                    <Button htmlType="submit" className={styles.authForm__submitButton}>
+                {status && status.firebaseErrorMessage && <p className={styles.authForm__errorMessage}>
+                    {status.firebaseErrorMessage}
+                </p>}
+                <Form.Item style={{marginTop: '25px'}}>
+                    <Button onClick={handleSubmit} htmlType="submit" className={styles.authForm__submitButton}>
                         Войти
                     </Button>
                 </Form.Item>

@@ -14,7 +14,7 @@ const PinnedDialog = ({ name, avatar, lastMessage, isOnline, isUnreadMessages })
                 </Status>
                 <p className={styles.partnerName}>{ name }</p>
             </div>
-            <p className={styles.lastMessage}>{ lastMessage }</p>
+            <p className={styles.lastMessage}>{ lastMessage.text }</p>
         </div>
     );
 };

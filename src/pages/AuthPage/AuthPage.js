@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { LoginForm } from 'components';
-import { RegisterForm } from 'containers';
+import { RegisterForm, LoginForm } from 'containers';
 
 import styles from './AuthPage.module.scss'
 import { Button } from 'antd';
@@ -8,7 +7,6 @@ import Waves from 'styles/Waves';
 
 const AuthPage = () => {
     const [activeForm, setActiveForm] = useState('LoginForm')
-    
 
     return (
         <section className={styles.authPage}>

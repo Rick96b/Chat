@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx"
 import { listenForUsersStatuses, postUser } from "firebaseCore/controllers";
-import { registerNewUser } from "firebaseCore/authControllers";
+import { registerNewUser, signInUser } from "firebaseCore/authControllers";
 
 class Users {
     currentUser = {};
@@ -11,16 +11,20 @@ class Users {
         makeAutoObservable(this);
     }
 
-    async getOnlineUsers() {
+    getOnlineUsers() {
         listenForUsersStatuses(onlineUsersArray => this.setUsersStatus(onlineUsersArray))
     }
 
-    async registerUser(userData) {
-        await registerNewUser(userData).then(userCredential => {
+    registerUser(userData) {
+        registerNewUser(userData).then(userCredential => {
             postUser({user:userData, uid:userCredential.user.uid})
             this.setCurrentUser({uid:userCredential.user.uid, ...userData})
         })
 
+    }
+
+    signInUser(userData) {
+        return signInUser(userData)
     }
 
     setUsersStatus(newUsersStatus) {

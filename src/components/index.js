@@ -1,4 +1,4 @@
-export {default as Status} from './Status'
+export {default as Status} from './Status';
 export {default as Time} from './Time';
 export {default as PinnedDialog} from './PinnedDialog';
 export {default as PinnedDialogs} from './PinnedDialogs';
@@ -15,3 +15,4 @@ export {default as MessagesBlock} from './MessagesBlock';
 export {default as LoginForm} from './LoginForm';
 export {default as RegisterForm} from './RegisterForm';
 export {default as Loader} from './Loader';
+
