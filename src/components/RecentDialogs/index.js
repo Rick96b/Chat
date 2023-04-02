@@ -22,11 +22,7 @@ const RecentDialogs = React.forwardRef(({ dialogs }, ref) => {
                     {dialogs.map(dialog => 
                         <li className={styles.recentDialogs__dialog}>
                             <RecentDialog
-                                dialogId={dialog.id}
-                                name={dialog.name}
-                                lastMessage={dialog.lastMessage}
-                                unreadCount={dialog.unread}
-                                isOnline={dialog.presenceData && dialog.presenceData.state == 'online' ? true : false}
+                                dialog={dialog}
                             />
                         </li>
                     )}

@@ -7,7 +7,6 @@ import styles from './CreateNewChatPage.module.scss';
 import { Link } from 'react-router-dom';
 
 const CreateNewChatPage = ({users, createChatFunc, usersStatus}) => {
-    console.log(usersStatus)
     return (
         <div className={styles.createNewChat}>
             <header className={styles.createNewChat__header}>
@@ -25,14 +24,12 @@ const CreateNewChatPage = ({users, createChatFunc, usersStatus}) => {
                 {users && users.map((user) => 
                     <Link to='/' onClick={() => createChatFunc(user)} style={{textDecoration: 'none'}}>
                         <div className={styles.createNewChat__user}>
-                            <Status isOnline={
-                                usersStatus.filter(userStatus => userStatus.uid == user.uid)[0].state == 'online'
-                                }>
+                            <Status isOnline={true}>                                
                                 <Avatar className={styles.createNewChat__userAvatar}/>
                             </Status>
                             <div className={styles.createNewChat__userInfo}>
                                 <p className={styles.createNewChat__userName}>{ user.login }</p>
-                                <p className={styles.createNewChat__userDescription}>{ 
+                                {/* <p className={styles.createNewChat__userDescription}>{ 
                                     usersStatus.filter(userStatus => userStatus.uid == user.uid)[0].state == 'online' 
                                     ?
                                     'online' 
@@ -41,7 +38,7 @@ const CreateNewChatPage = ({users, createChatFunc, usersStatus}) => {
                                         <span>Was online at </span>
                                         <Time date={usersStatus.filter(userStatus => userStatus.uid == user.uid)[0].last_changed} />
                                     </div>
-                                }</p>
+                                }</p> */}
                             </div>
                         </div>
                     </Link>

@@ -3,6 +3,6 @@ import { db } from "firebaseCore";
 
 export default async (user) => {
     const dialogsRefs = query(collection(db, 'dialogs'), 
-        where('partners', 'array-contains', doc(db, 'users', user.uid)))
+        where('partners', 'array-contains', user.uid))
     return await getDocs(dialogsRefs)
 }

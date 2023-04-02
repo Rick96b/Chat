@@ -16,7 +16,7 @@ const CreateNewChatPage = () => {
     const dialog = {
       lastMessage: '',
       isGroup: false,
-      partners: [doc(db, 'users', user.uid), doc(db, 'users', auth.currentUser.uid)],
+      partners: [user.uid, auth.currentUser.uid],
       unreads: {
         [user.uid]: 0,
         [auth.currentUser.uid]: 0
@@ -26,7 +26,7 @@ const CreateNewChatPage = () => {
   }
 
   return (
-      <BaseCreateNewChatPage users={users} usersStatus={RootStore.usersStore.usersStatus} createChatFunc={createChatFunc}/>
+      <BaseCreateNewChatPage users={users} createChatFunc={createChatFunc}/>
   );
 };
 

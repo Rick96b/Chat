@@ -1,9 +1,10 @@
-import { makeAutoObservable, reaction } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, addChatToDatabase, getUserDialogs, listenForUsersStatuses, AddPinnedDialog, getPinnedDialogs, addChatToRelations } from "firebaseCore/controllers";
+import { makeAutoObservable } from "mobx"
+import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, getUserDialogs, listenForUsersStatuses, AddPinnedDialog, getPinnedDialogs, addChatToRelations } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "firebaseCore";
 import { DialogPrepocesser } from "utils";
+import { addChatToChatsRelations, addChatToDatabase, addUserToUsersRelations, getUserDataByUid  } from "firebaseControllers/firestoreControllers";
 
 class Dialogs {
     initialized = false;
@@ -16,18 +17,13 @@ class Dialogs {
     constructor(rootStore) {
         this.rootStore = rootStore;
         makeAutoObservable(this);
-
-        const usersStatusUpdated = reaction(
-            () => this.rootStore.usersStore.usersStatus,
-            async () => this.setDialogs(await this.getUserDialogs(this.rootStore.usersStore.currentUser))
-        )
     }
 
     async initializeStore(user) {
         this.initialized = true;
         this.dialogs = await this.getUserDialogs(user);
         onSnapshot(query(collection(db, 'dialogs'), 
-            where('partners', 'array-contains', doc(db, 'users', user.uid))), async () => {
+            where('partners', 'array-contains', user.uid)), async () => {
             this.dialogs = await this.getUserDialogs(user)
         });
         onSnapshot(query(collection(db, 'usersDialogsRelations', user.uid, 'dialogs'), 
@@ -48,7 +44,6 @@ class Dialogs {
         return await DialogPrepocesser({
             dialogsData: userDialogs, 
             authUser: user, 
-            onlineUsers: this.rootStore.usersStore.usersStatus
         })
     }
 
@@ -66,7 +61,7 @@ class Dialogs {
 
     async postMessage(message) {
         const unreadedPromises = this.currentDialog.partners.map(async partnerRef => {
-            const partner = await getCurrentUser({userRef: partnerRef})
+            const partner = await getUserDataByUid({userRef: partnerRef})
             if(partner.uid != this.rootStore.usersStore.currentUser.uid) {
                 return partner.uid
             }
@@ -89,7 +84,7 @@ class Dialogs {
     async setCurrentDialog(dialogId) {
         await getCurrentDialog(dialogId).then(dialog => {
             let partnersPromises = dialog.partners.map(partnerRef => {
-                return getCurrentUser({userRef: partnerRef})
+                return getUserDataByUid({userRef: partnerRef})
             })
             Promise.all(partnersPromises)
             .then(partnersData => this.currentDialog = {partnersData: partnersData, ...dialog})
@@ -105,7 +100,7 @@ class Dialogs {
 
     changeUnreadCount() {
         this.currentDialog.partners.forEach(partner => {
-            getCurrentUser({userRef: partner}).then(user => {
+            getUserDataByUid({userRef: partner}).then(user => {
                 if(user.uid !== this.rootStore.usersStore.currentUser.uid) {
                     addUnreadCount(this.currentDialog.id, user.uid, 1)
                 }
@@ -115,8 +110,10 @@ class Dialogs {
 
     createNewChat(chat, authorizedUserUid, partnerUid) {
         addChatToDatabase(chat).then(dialogRef => {
-            addChatToRelations(authorizedUserUid, dialogRef.id)
-            addChatToRelations(partnerUid, dialogRef.id)
+            addChatToChatsRelations(authorizedUserUid, dialogRef.id)
+            addChatToChatsRelations(partnerUid, dialogRef.id)
+            addUserToUsersRelations(partnerUid , authorizedUserUid)
+            addUserToUsersRelations(authorizedUserUid, partnerUid)
         })
 
     }

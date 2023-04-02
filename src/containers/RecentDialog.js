@@ -4,9 +4,7 @@ import { RootStore } from 'store';
 
 import { RecentDialog as BaseDialog } from 'components';
 
-
-
-const RecentDialog = (props) => {
+const RecentDialog = ({dialog}) => {
     const dialogRef = createRef();
     const SwipeHandlers = useSwipeable({ 
         onSwipedLeft: 
@@ -26,17 +24,20 @@ const RecentDialog = (props) => {
     }
 
     const pinButtonClick = (event) => {
-        RootStore.dialogsStore.pinDialog(props.dialogId)
+        RootStore.dialogsStore.pinDialog(dialog.dialogId)
         dialogRef.current.style.transform = `translate3d(0, 0, 0)`;
     }
+
+    const members = dialog.partners.filter(member => member.uid != RootStore.usersStore.currentUser.uid)
+    console.log(members)
     
     return (
         <BaseDialog
-            name={props.name}
-            lastMessage={props.lastMessage}
-            unreadCount={props.unreadCount}
-            isOnline={props.isOnline}
-            dialogId={props.dialogId}
+            name={dialog.name}
+            lastMessage={dialog.lastMessage}
+            unreadCount={dialog.unreadCount}
+            isOnline={true}
+            dialogId={dialog.dialogId}
             onPinButtonClick={pinButtonClick}
             ref={refPassthrough}
         />
