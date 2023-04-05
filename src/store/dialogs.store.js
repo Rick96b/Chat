@@ -1,18 +1,13 @@
 import { makeAutoObservable } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, getCurrentUser, readCurrentMessage, getUserDialogs, listenForUsersStatuses, AddPinnedDialog, getPinnedDialogs, addChatToRelations } from "firebaseCore/controllers";
+import { getCurrentDialog, addMessage, changeLastChatMessage, readCurrentMessage, AddPinnedDialog } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
-import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "firebaseCore";
-import { DialogPrepocesser } from "utils";
-import { addChatToChatsRelations, addChatToDatabase, addUserToUsersRelations, getUserDataByUid  } from "firebaseControllers/firestoreControllers";
+import { addChatToChatsRelations, addChatToDatabase, addUserToUsersRelations, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
+import { listenForUserChatsRelations, listenForUserDialogs } from "firebaseControllers/firestoreListeners";
 
 class Dialogs {
-    initialized = false;
     currentDialog = {};
     activeChannel = 'General';
     dialogs = [];
-    pinnedDialogs = [];
-    d = {};
 
     constructor(rootStore) {
         this.rootStore = rootStore;
@@ -20,44 +15,47 @@ class Dialogs {
     }
 
     async initializeStore(user) {
-        this.initialized = true;
-        this.dialogs = await this.getUserDialogs(user);
-        onSnapshot(query(collection(db, 'dialogs'), 
-            where('partners', 'array-contains', user.uid)), async () => {
-            this.dialogs = await this.getUserDialogs(user)
-        });
-        onSnapshot(query(collection(db, 'usersDialogsRelations', user.uid, 'dialogs'), 
-            where('isPinned', '==', true)), async () => {
-            this.pinnedDialogs = await this.getPinnedDialogs(user)
-        });
-    }
-
-    pinDialog(dialogId) {
-        AddPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
+        this.setDialogs(await this.getUserDialogs(user));
+        listenForUserDialogs(user.uid, (snapshot) => {
+            snapshot.docChanges().forEach(change => {
+                if(change.type === 'added') {
+                    this.addDialogToDialogs(user.uid, change.doc.data())
+                }
+                if (change.type === "modified") {
+                    this.removeDialogFromDialogs(change.doc.data())
+                    this.addDialogToDialogs(user.uid, change.doc.data())
+                }
+                if (change.type === "removed") {
+                    this.removeDialogFromDialogs(user.uid, change.doc.data())
+                }
+            })
+        })
     }
 
     async getUserDialogs(user) {
         const dialogsDocs = await getUserDialogs(user);
-        const userDialogs = dialogsDocs.docs.map(dialog => {
-            return {...dialog.data(), id:dialog.id}
+        const dialogsWithRelatedData = dialogsDocs.docs.map(async (dialog) => {
+            const relatedData = await getChatsRelations(user.uid, dialog.id);
+            return {...dialog.data(), ...relatedData}
         })
-        return await DialogPrepocesser({
-            dialogsData: userDialogs, 
-            authUser: user, 
-        })
+        return await Promise.all(dialogsWithRelatedData)
     }
 
-    async getPinnedDialogs(user) {
-        const pinnedDialogsDocs = await getPinnedDialogs(user);
-        const pinnedUserDialogs = pinnedDialogsDocs.map(dialog => {
-            return {...dialog, id:dialog.id}
-        })
-        return await DialogPrepocesser({
-            dialogsData: pinnedUserDialogs, 
-            authUser: user, 
-            onlineUsers: this.rootStore.usersStore.usersStatus
-        })
+    async addDialogToDialogs(userUid, dialogToAdd) {
+        if(!this.dialogs.filter(dialog => dialog.id == dialogToAdd.id)[0]) {
+            const relatedData = await getChatsRelations(userUid, dialogToAdd.id);
+            this.pushDialog({...relatedData, ...dialogToAdd}) 
+        }
     }
+
+    removeDialogFromDialogs(dialogToRemove) {
+        this.setDialogs(this.dialogs.filter(dialog => dialog.id != dialogToRemove.id))
+    }
+    
+    pinDialog(dialogId) {
+        AddPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
+    }
+
 
     async postMessage(message) {
         const unreadedPromises = this.currentDialog.partners.map(async partnerRef => {
@@ -124,6 +122,10 @@ class Dialogs {
 
     setDialogs(dialogs) {
         this.dialogs = dialogs;
+    }
+
+    pushDialog(dialog) {
+        this.dialogs.push(dialog);
     }
 }
 

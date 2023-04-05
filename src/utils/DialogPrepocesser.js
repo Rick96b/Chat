@@ -6,11 +6,11 @@ const DialogPrepocesser = async ({dialogsData, authUser}) => {
             const firstUser = await getUserDataByUid(dialog.partners[0]);
             const secondUser = await getUserDataByUid(dialog.partners[1]);
             const currentUser = firstUser.uid === authUser.uid ? secondUser : firstUser
-            return {
-                name: currentUser.login, 
-                avatar: currentUser.avatar, 
+            return { 
                 unread: dialog.unreads[authUser.uid],
-                ...dialog,
+                isGroup: dialog.isGroup,
+                lastMessage: dialog.lastMessage,
+                partner: currentUser.uid
             }
         }
         return dialog

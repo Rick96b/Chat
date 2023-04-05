@@ -1,11 +1,19 @@
 import React, { createRef } from 'react';
 import { useSwipeable } from 'react-swipeable';
-import { RootStore } from 'store';
+import { observer } from 'mobx-react';
 
+import { RootStore } from 'store';
 import { RecentDialog as BaseDialog } from 'components';
+
 
 const RecentDialog = ({dialog}) => {
     const dialogRef = createRef();
+    let partnerData;
+    if(!dialog.isGroup) {
+        const partnerUid = dialog.partners.filter(partner => partner.uid != RootStore.usersStore.currentUser.uid)[0]
+        partnerData = RootStore.usersStore.allUsers.filter(user => user.uid == partnerUid)[0]
+    }
+
     const SwipeHandlers = useSwipeable({ 
         onSwipedLeft: 
         ({ event }) => {
@@ -28,15 +36,14 @@ const RecentDialog = ({dialog}) => {
         dialogRef.current.style.transform = `translate3d(0, 0, 0)`;
     }
 
-    const members = dialog.partners.filter(member => member.uid != RootStore.usersStore.currentUser.uid)
-    console.log(members)
+    
     
     return (
         <BaseDialog
-            name={dialog.name}
+            name={partnerData.login}
             lastMessage={dialog.lastMessage}
             unreadCount={dialog.unreadCount}
-            isOnline={true}
+            precenseData={partnerData.precenseData}
             dialogId={dialog.dialogId}
             onPinButtonClick={pinButtonClick}
             ref={refPassthrough}
@@ -44,4 +51,4 @@ const RecentDialog = ({dialog}) => {
     );
 };
 
-export default RecentDialog;
+export default observer(RecentDialog);

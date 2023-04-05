@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from "mobx"
+import { makeAutoObservable } from "mobx"
 import { getAllUsers, postUser } from "firebaseControllers/firestoreControllers";
 import { registerNewUser, signInUser } from "firebaseControllers/authControllers";
 import { listenForAllUsers } from "firebaseControllers/firestoreListeners";
@@ -11,15 +11,10 @@ class Users {
     constructor(rootStore) {
         this.rootStore = rootStore;
         makeAutoObservable(this);
-
-        reaction(
-            () => this.allUsers,
-            () => console.log(this.allUsers)
-        )
     }
 
     async initializeStore(user) {
-        setAllUsers(await getAllUsers());
+        this.setAllUsers(await getAllUsers());
         listenForUsersStatuses((userPrecenseData) => {
             this.changeUserPrecenseData(userPrecenseData.key, userPrecenseData.val())
         })
@@ -29,14 +24,13 @@ class Users {
                     this.addUserToAllUsers(change.doc.data())
                 }
                 if (change.type === "modified") {
-                    this.removeUserFromAllUsers(change.doc.data())
-                    this.addUserToAllUsers(change.doc.data())
+                    this.modifyUserInAllUsers(change.doc.data())
                 }
                 if (change.type === "removed") {
                     this.removeUserFromAllUsers(change.doc.data())
                 }
             })
-        })
+        }) 
         this.setCurrentUser(user);
     }
 
@@ -52,28 +46,32 @@ class Users {
     }
 
     changeUserPrecenseData(userUid, precenseData) {
-        this.allUsers = this.allUsers.map(user => {
-            if(user.uid == userUid) {
-                return {precenseData:precenseData, ...user}
-            }
-            return user
-        })
+        const userToModify = this.allUsers.filter(user => user.uid == userUid)[0]
+        this.modifyUserInAllUsers({...userToModify, precenseData:precenseData})
     }
 
     async addUserToAllUsers(userToAdd) {
         if(!this.allUsers.filter(user => user.uid == userToAdd.uid)[0]) {
             const precenseData = await getPrecenseData(userToAdd.uid)
-            this.pushUserToAllUsers({precenseData:precenseData, ...userToAdd})
+            this.pushUserToAllUsers({...userToAdd, precenseData:precenseData})
         }
     }
 
     pushUserToAllUsers(user) {
         this.allUsers.push(user)
-        console.log(this.allUsers)
     }
 
     removeUserFromAllUsers(userToRemove) {
-        this.allUsers = this.allUsers.filter(user => user.uid != userToRemove.uid)
+        this.setAllUsers(this.allUsers.filter(user => user.uid != userToRemove.uid))
+    }
+
+    modifyUserInAllUsers(userToModify) {
+        this.setAllUsers(this.allUsers.map(user => {
+            if(user.uid == userToModify.uid) {
+                return userToModify
+            }
+            return user
+        }))
     }
 
     setCurrentUser(user) {

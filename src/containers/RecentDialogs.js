@@ -23,7 +23,7 @@ const RecentDialogs = () => {
     const refPassthrough = (el) => {
         SwipeHandlers.ref(el);
     }
-    
+
     return (
         <BaseDialogs
             dialogs={RootStore.dialogsStore.dialogs}

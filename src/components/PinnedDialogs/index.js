@@ -1,5 +1,5 @@
 import { Avatar, Empty } from 'antd';
-import PinnedDialog from 'components/PinnedDialog';
+import PinnedDialog from 'containers/PinnedDialog';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -22,10 +22,7 @@ const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
                                 <li className={styles.pinnedDialog}>
                                     <Link to={`dialog/${dialog.id}`} style={{ textDecoration: 'none' }}>
                                         <PinnedDialog 
-                                            name={dialog.name}
-                                            lastMessage={dialog.lastMessage}
-                                            isOnline={dialog.isOnline}
-                                            isUnreadMessages={!!dialog.unreadCount}
+                                            dialog={dialog}
                                         />
                                     </Link>
                                 </li>

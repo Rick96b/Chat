@@ -6,14 +6,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './RecentDialog.module.scss';
+import { observer } from 'mobx-react';
 
 
-const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, isOnline, dialogId, onPinButtonClick}, ref) => {
+const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, precenseData, dialogId, onPinButtonClick}, ref) => {
     return (
         <div className={styles.dialogContainer} ref={ref}>
             <Link to={`dialog/${dialogId}`} style={{ textDecoration: 'none', width: '100%' }}>
                 <div className={styles.dialog}>
-                    <Status isOnline={isOnline}>
+                    <Status isOnline={precenseData && precenseData.state == 'online' ? true : false}>
                         <Avatar className={styles.dialog__avatar} />
                     </Status>
                     <div className={styles.dialog__content}>
@@ -47,4 +48,4 @@ const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, isOnline
     );
 });
 
-export default RecentDialog;
+export default observer(RecentDialog);

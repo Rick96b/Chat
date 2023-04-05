@@ -14,7 +14,7 @@ const HomePage = ({user}) => {
         getUserDataByUid(user.uid).then(async userData => {
             presenceHandler(user.uid);
             await RootStore.dialogsStore.initializeStore(userData);
-            RootStore.usersStore.initializeStore(userData);
+            await RootStore.usersStore.initializeStore(userData);
             setInitializingDialogs(false);
         })
 
