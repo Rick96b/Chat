@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx"
 import { getCurrentDialog, addMessage, changeLastChatMessage, readCurrentMessage, AddPinnedDialog } from "firebaseCore/controllers";
 import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
-import { addChatToChatsRelations, addChatToDatabase, addUserToUsersRelations, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
+import { addChatToChatsRelations, addChatToDatabase, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
 import { listenForUserChatsRelations, listenForUserDialogs } from "firebaseControllers/firestoreListeners";
 
 class Dialogs {
@@ -19,14 +19,13 @@ class Dialogs {
         listenForUserDialogs(user.uid, (snapshot) => {
             snapshot.docChanges().forEach(change => {
                 if(change.type === 'added') {
-                    this.addDialogToDialogs(user.uid, change.doc.data())
+                    this.addDialogToDialogs(user.uid, change.doc)
                 }
-                if (change.type === "modified") {
-                    this.removeDialogFromDialogs(change.doc.data())
-                    this.addDialogToDialogs(user.uid, change.doc.data())
+                if(change.type === 'modified') {
+                    this.modifyDialogInDialogs(change.doc.data())
                 }
                 if (change.type === "removed") {
-                    this.removeDialogFromDialogs(user.uid, change.doc.data())
+                    this.removeDialogFromDialogs(change.doc.data())
                 }
             })
         })
@@ -42,10 +41,21 @@ class Dialogs {
     }
 
     async addDialogToDialogs(userUid, dialogToAdd) {
-        if(!this.dialogs.filter(dialog => dialog.id == dialogToAdd.id)[0]) {
-            const relatedData = await getChatsRelations(userUid, dialogToAdd.id);
-            this.pushDialog({...relatedData, ...dialogToAdd}) 
+        const dialogToAddId = dialogToAdd.id;
+        const dialogToAddData = dialogToAdd.data();
+        if(!this.dialogs.filter(dialog => dialog.id == dialogToAddId)[0]) {
+            const relatedData = await getChatsRelations(userUid, dialogToAddId);
+            this.pushDialog({...relatedData, ...dialogToAddData}) 
         }
+    }
+
+    modifyDialogInDialogs(dialogToModify) {
+        this.setDialogs(this.dialogs.map(dialog => {
+            if(dialog.uid == dialogToModify.uid) {
+                return dialogToModify
+            }
+            return dialog
+        }))
     }
 
     removeDialogFromDialogs(dialogToRemove) {
@@ -110,8 +120,6 @@ class Dialogs {
         addChatToDatabase(chat).then(dialogRef => {
             addChatToChatsRelations(authorizedUserUid, dialogRef.id)
             addChatToChatsRelations(partnerUid, dialogRef.id)
-            addUserToUsersRelations(partnerUid , authorizedUserUid)
-            addUserToUsersRelations(authorizedUserUid, partnerUid)
         })
 
     }

@@ -21,7 +21,7 @@ class Users {
         listenForAllUsers((snapshot) => {
             snapshot.docChanges().forEach(change => {
                 if(change.type === 'added') {
-                    this.addUserToAllUsers(change.doc.data())
+                    this.addUserToAllUsers(change.doc)
                 }
                 if (change.type === "modified") {
                     this.modifyUserInAllUsers(change.doc.data())
@@ -51,9 +51,11 @@ class Users {
     }
 
     async addUserToAllUsers(userToAdd) {
-        if(!this.allUsers.filter(user => user.uid == userToAdd.uid)[0]) {
-            const precenseData = await getPrecenseData(userToAdd.uid)
-            this.pushUserToAllUsers({...userToAdd, precenseData:precenseData})
+        const userToAddId = userToAdd.id;
+        const userToAddData = userToAdd.data();
+        if(!this.allUsers.filter(user => user.uid == userToAddId)[0]) {
+            const precenseData = await getPrecenseData(userToAddId);
+            this.pushUserToAllUsers({...userToAddData, precenseData:precenseData})
         }
     }
 

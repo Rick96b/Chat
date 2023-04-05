@@ -5,4 +5,3 @@ export {default as getAllUsers} from './getAllUsers';
 export {default as getChatsRelations} from './getChatsRelations';
 export {default as addChatToDatabase} from './addChatToDatabase';
 export {default as addChatToChatsRelations} from './addChatToChatsRelations';
-export {default as addUserToUsersRelations} from './addUserToUsersRelations';

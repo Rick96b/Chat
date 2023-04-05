@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 
 import {default as BasePage} from './HomePage';
 import { Loader } from 'components';
@@ -7,14 +8,14 @@ import { getUserDataByUid } from 'firebaseControllers/firestoreControllers';
 import { presenceHandler } from 'firebaseControllers/realtimeDatabaseControllers';
 
 
+
 const HomePage = ({user}) => {
     const [initializingDialogs, setInitializingDialogs] = useState(true);
 
-    if(user && initializingDialogs) {
+    if(RootStore.initialized == false && initializingDialogs == true) {
         getUserDataByUid(user.uid).then(async userData => {
-            presenceHandler(user.uid);
-            await RootStore.dialogsStore.initializeStore(userData);
-            await RootStore.usersStore.initializeStore(userData);
+            presenceHandler(userData.uid);
+            await RootStore.initializeStores(userData);
             setInitializingDialogs(false);
         })
 
@@ -28,4 +29,4 @@ const HomePage = ({user}) => {
     );
 };
 
-export {HomePage};
+export default observer(HomePage);
