@@ -7,19 +7,20 @@ import { RootStore } from 'store';
 
 const MessagesList = ({ messages }) => {
     const MessagesReadFunc = (messages) => {
-        console.log(messages)
         messages.forEach(message => {
             if(message.props.readed[RootStore.usersStore.currentUser.uid] === false) {
-                RootStore.dialogsStore.readMessage(message.props)
+                console.log(RootStore.usersStore.currentUser.uid)
+                RootStore.dialogStore.readMessage(message.props)
             }
         })
     }
 
-
     if(messages) {
-        let correctMessages = messages.map((message) => 
-            ChooseCorrectMessageType(message)
-        )
+        let correctMessages = [];
+        messages.forEach((message) => {
+            const correctMessage = ChooseCorrectMessageType(message, RootStore.usersStore.currentUser.uid);
+            if(correctMessage) correctMessages.push(correctMessage);
+        })
 
         if (RootStore.dialogsStore.currentDialog.isGroup) {
             let blocksOfMessages = SeparateMessagesOnBlocks(correctMessages)

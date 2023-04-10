@@ -2,23 +2,24 @@ import React from 'react';
 
 import {PinnedDialog as BaseDialog} from 'components';
 import { RootStore } from 'store';
+import { observer } from 'mobx-react-lite';
 
 const PinnedDialog = ({ dialog }) => {
-    let partner;
+    let partnerData;
     if(!dialog.isGroup) {
-        partner = RootStore.usersStore.allUsers.filter(user => user.uid == dialog.partner)[0]
+        const partnerUid = dialog.partners.filter(partner => partner != RootStore.usersStore.currentUser.uid)[0]
+        partnerData = RootStore.usersStore.allUsers.filter(user => user.uid == partnerUid)[0]
     }
-
 
     return (
         <BaseDialog 
-            name={partner.login}
-            avatar={partner.avatar}
+            name={partnerData.login}
+            avatar={partnerData.avatar}
             lastMessage={dialog.lastMessage}
-            precenseData={partner.precenseData}
+            precenseData={partnerData.precenseData}
             isUnreadMessages={dialog.unread > 0 ? true : false}
         />
     );
 };
 
-export default PinnedDialog;
+export default observer(PinnedDialog);

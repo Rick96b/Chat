@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx"
 import { getCurrentDialog, addMessage, changeLastChatMessage, readCurrentMessage, AddPinnedDialog } from "firebaseCore/controllers";
-import addUnreadCount from "firebaseCore/controllers/addUnreadCount";
-import { addChatToChatsRelations, addChatToDatabase, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
+import addUnreadCount from "firebaseControllers/firestoreControllers/changeChatUnreads";
+import { addChannelToChat, addChatToChatsRelations, addChatToDatabase, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
 import { listenForUserChatsRelations, listenForUserDialogs } from "firebaseControllers/firestoreListeners";
+import { generateUniqueUUID } from "utils";
 
 class Dialogs {
     currentDialog = {};
@@ -29,6 +30,13 @@ class Dialogs {
                 }
             })
         })
+        listenForUserChatsRelations(user.uid, (snapshot) => {
+            snapshot.docChanges().forEach(change => {
+                if(change.type === 'modified') {
+                    this.addRelatedDataToDialog(change.doc)
+                }
+            })
+        })
     }
 
     async getUserDialogs(user) {
@@ -51,7 +59,7 @@ class Dialogs {
 
     modifyDialogInDialogs(dialogToModify) {
         this.setDialogs(this.dialogs.map(dialog => {
-            if(dialog.uid == dialogToModify.uid) {
+            if(dialog.id == dialogToModify.id) {
                 return dialogToModify
             }
             return dialog
@@ -61,65 +69,24 @@ class Dialogs {
     removeDialogFromDialogs(dialogToRemove) {
         this.setDialogs(this.dialogs.filter(dialog => dialog.id != dialogToRemove.id))
     }
+
+    addRelatedDataToDialog(relatedData) {
+        const dialogToModify = this.dialogs.filter(dialog => dialog.id == relatedData.id)[0]
+        this.modifyDialogInDialogs({...dialogToModify, ...relatedData.data()})
+    }
     
     pinDialog(dialogId) {
+        console.log(this.rootStore.usersStore.currentUser.uid, dialogId)
         AddPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
     }
 
-
-    async postMessage(message) {
-        const unreadedPromises = this.currentDialog.partners.map(async partnerRef => {
-            const partner = await getUserDataByUid({userRef: partnerRef})
-            if(partner.uid != this.rootStore.usersStore.currentUser.uid) {
-                return partner.uid
-            }
-        })
-        Promise.all(unreadedPromises).then(unreadedData => {
-            let readData = {};
-            unreadedData.forEach(unreadItem => {
-                if(unreadItem) {
-                    readData[unreadItem] = false
-                }
-            })
-            addMessage(this.currentDialog.id, this.activeChannel, {readed: readData, ...message})
-            this.changeUnreadCount()
-            if(!this.currentDialog.isGroup) {
-                changeLastChatMessage(this.currentDialog.id, {...message})
-            };
-        })
-    }
-
-    async setCurrentDialog(dialogId) {
-        await getCurrentDialog(dialogId).then(dialog => {
-            let partnersPromises = dialog.partners.map(partnerRef => {
-                return getUserDataByUid({userRef: partnerRef})
-            })
-            Promise.all(partnersPromises)
-            .then(partnersData => this.currentDialog = {partnersData: partnersData, ...dialog})
-        })
-    }
-
-    readMessage(message) {
-        readCurrentMessage(this.currentDialog.id, this.activeChannel, message.id, this.rootStore.usersStore.currentUser.uid)
-        if(message.author != this.rootStore.usersStore.currentUser.uid) {
-            addUnreadCount(this.currentDialog.id, this.rootStore.usersStore.currentUser.uid, -1)
-        }
-    }
-
-    changeUnreadCount() {
-        this.currentDialog.partners.forEach(partner => {
-            getUserDataByUid({userRef: partner}).then(user => {
-                if(user.uid !== this.rootStore.usersStore.currentUser.uid) {
-                    addUnreadCount(this.currentDialog.id, user.uid, 1)
-                }
-            })
-        })
-    }
-
     createNewChat(chat, authorizedUserUid, partnerUid) {
-        addChatToDatabase(chat).then(dialogRef => {
-            addChatToChatsRelations(authorizedUserUid, dialogRef.id)
-            addChatToChatsRelations(partnerUid, dialogRef.id)
+        const id = generateUniqueUUID();
+        console.log('what')
+        addChatToDatabase(chat, id).then(() => {
+            addChannelToChat(id, 'General')
+            addChatToChatsRelations(authorizedUserUid, id);
+            addChatToChatsRelations(partnerUid, id);
         })
 
     }

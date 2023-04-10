@@ -28,8 +28,10 @@ const PinnedDialogs = () => {
         SwipeHandlers.ref(el);
     }
 
+    const pinnedDialogs = RootStore.dialogsStore.dialogs.filter(dialog => dialog.isPinned)
+
     return (
-        <BaseDialogs dialogs={[]} {...SwipeHandlers} ref={refPassthrough}/>
+        <BaseDialogs dialogs={pinnedDialogs} {...SwipeHandlers} ref={refPassthrough}/>
     );
 };
 

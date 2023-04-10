@@ -10,7 +10,7 @@ import 'firebase/compat/firestore';
 const MessageInput = observer(({ resizeFunc }) => {
 
     const onFinishFunc = (values) => {
-        RootStore.dialogsStore.postMessage({
+        RootStore.dialogStore.postMessage({
             type: 'text', 
             author: RootStore.usersStore.currentUser.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),

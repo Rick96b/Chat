@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
-import React, { useEffect, useRef } from 'react';
+import React, { createRef, useEffect } from 'react';
 
 import styles from './MessageList.module.scss';
 
 const MessagesList = ({ items, MessagesReadFunc }) => {
-    let messageListRef = useRef();
+    let messageListRef = createRef();
 
     const scrollToBottom = () => {
         messageListRef.current?.scrollBy(0,
@@ -16,11 +16,11 @@ const MessagesList = ({ items, MessagesReadFunc }) => {
         );
     }
 
-    const checkVisibilityOfItems = () => {
-        const messageListOffsets = messageListRef.current.getBoundingClientRect()
+    const checkVisibilityOfItems = (ref, items) => {
+        const messageListOffsets = ref.current.getBoundingClientRect()
         let newItems = [];
         items.forEach((item, index) => {
-            const itemOffsets = messageListRef.current.childNodes[index].getBoundingClientRect()
+            const itemOffsets = ref.current.childNodes[index].getBoundingClientRect()
             if(messageListOffsets.height + messageListOffsets.top >= itemOffsets.height + itemOffsets.top) {
                 newItems.push(item)
             }
@@ -30,8 +30,8 @@ const MessagesList = ({ items, MessagesReadFunc }) => {
 
 
     useEffect(() => {
-        messageListRef.current.addEventListener('scroll', checkVisibilityOfItems)
-        checkVisibilityOfItems()
+        messageListRef.current.addEventListener('scroll', checkVisibilityOfItems(messageListRef, items))
+        scrollToBottom();
     })
 
     return (

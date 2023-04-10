@@ -4,13 +4,11 @@ import { observer } from 'mobx-react';
 import { RootStore } from 'store';
 
 const DialogHeader = () => {
-    let dialogName = '';
-    let onlineData = '';
-
-    dialogName = RootStore.dialogsStore.currentDialog.partnersData.filter(partner => partner.uid != RootStore.usersStore.currentUser.uid)[0].login
+    const partnerUid = RootStore.dialogStore.currentDialog.partners.filter(partnerUid => partnerUid != RootStore.usersStore.currentUser.uid)[0];
+    const partnerData = RootStore.usersStore.allUsers.filter(user => user.uid == partnerUid)[0];
 
     return (
-        <BaseDialogHeader dialogName={dialogName}/>
+        <BaseDialogHeader dialogName={partnerData.login} onlineData={partnerData.precenseData}/>
     );
 };
 

@@ -1,10 +1,7 @@
-import { collection, addDoc, updateDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 
 import { db }  from 'firebaseCore'
 
-export default async (dialog) => {
-    return await addDoc(collection(db, 'dialogs'), dialog).then(docRef => {
-        updateDoc(docRef, {id: docRef.id});
-        return docRef;
-    })
+export default async (dialog, id) => {
+    return await setDoc(doc(db, 'dialogs', id), {...dialog, id: id})
 }

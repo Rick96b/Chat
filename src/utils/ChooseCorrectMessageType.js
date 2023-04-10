@@ -1,9 +1,9 @@
 import { TextMessage } from "components";
 
-const ChooseCorrectMessageType = (message) => {
+const ChooseCorrectMessageType = (message, userUid) => {
     switch(message.type) {
         case 'text':
-            return <TextMessage {...message} />
+            return <TextMessage {...message} isMe={message.author == userUid ? true : false }/>
             break
     }
 }

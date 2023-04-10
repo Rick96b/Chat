@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeftOutlined, MoreOutlined } from '@ant-design/icons';
 
 import styles from './DialogHeader.module.scss';
+import Time from 'components/Time';
 
 const DialogHeader = ({ dialogName, onlineData }) => {
     return (
@@ -15,7 +16,13 @@ const DialogHeader = ({ dialogName, onlineData }) => {
                 <Avatar className={styles.dialogHeader__avatar} />
                 <div className={styles.dialogHeader__textContainer}>
                     <h2 className={styles.dialogHeader__dialogName}>{dialogName}</h2>
-                    <p className={styles.dialogHeader__dialogData}>{onlineData}</p>
+                    {
+                        onlineData.state == 'online'
+                        ?
+                        <p className={styles.dialogHeader__dialogData}>online</p>
+                        :
+                        <p className={styles.dialogHeader__dialogData}>was online at <Time date={onlineData.last_changed} /></p>
+                    }
                 </div>
             </div>
             <Button icon={<MoreOutlined />} className={styles.dialogHeader__moreButton}/>

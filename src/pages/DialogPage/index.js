@@ -10,12 +10,11 @@ import { collection, orderBy, query } from 'firebase/firestore';
 
 const DialogPage = () => {
     let dialogId = useParams().dialogId;
-    const [messages, loading] = useCollectionData(
-        query(collection(db, 'dialogs', dialogId, 'channels', RootStore.dialogsStore.activeChannel, 'messages'), orderBy('createdAt'))
-    );
+    const messages = RootStore.dialogStore.messages[RootStore.dialogStore.currentChannel] ?
+        RootStore.dialogStore.messages[RootStore.dialogStore.currentChannel] : [];
 
-    if(RootStore.dialogsStore.currentDialog.id !== dialogId) {
-        RootStore.dialogsStore.setCurrentDialog(dialogId)
+    if(!RootStore.dialogStore.initialized) {
+        RootStore.dialogStore.initializeStore(dialogId);
     } else {
         return <BasePage messages={messages}/>
     }

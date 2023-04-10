@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx"
 
 import UserStore from "./users.store";
 import DialogsStore from "./dialogs.store";
+import DialogStore from "./dialog.store";
 
 class RootStoreClass {
   initialized = false;
@@ -9,6 +10,7 @@ class RootStoreClass {
   constructor() {
     this.usersStore = new UserStore(this)
     this.dialogsStore = new DialogsStore(this)
+    this.dialogStore = new DialogStore(this)
 
     makeAutoObservable(this);
   }

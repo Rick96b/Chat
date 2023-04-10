@@ -17,6 +17,7 @@ const CreateNewChatPage = () => {
       lastMessage: '',
       isGroup: false,
       partners: [user.uid, auth.currentUser.uid],
+      channels: [],
       unreads: {
         [user.uid]: 0,
         [auth.currentUser.uid]: 0
