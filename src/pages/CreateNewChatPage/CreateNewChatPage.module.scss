@@ -65,18 +65,17 @@
     &__userName {
         font-family: $mainFontFamily;
         font-weight: 500;
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 16px;
+        line-height: 21px;
         color: $titleTextColor;
     }
 
     &__userDescription {
-        margin-top: 6px;
         font-family: $mainFontFamily;
         font-style: normal;
         font-weight: 400;
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 12px;
+        line-height: 21px;
         color: $disableTextColor;
     }
 }

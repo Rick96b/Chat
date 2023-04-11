@@ -6,8 +6,8 @@ import 'firebase/compat/firestore';
 
 export default async (dialogId, userUid, count) => {
     if(dialogId && userUid) {
-        await updateDoc(doc(db, 'dialogs', dialogId), {
-            [`unreads.${userUid}`]: firebase.firestore.FieldValue.increment(count)
-        })
+        await updateDoc(doc(db, 'chatsRelations', userUid, 'dialogs', dialogId), {
+            unreads: firebase.firestore.FieldValue.increment(count)
+        }, { merge: true })
     }
 }

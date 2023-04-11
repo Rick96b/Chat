@@ -6,7 +6,7 @@ import React from 'react';
 import styles from './CreateNewChatPage.module.scss';
 import { Link } from 'react-router-dom';
 
-const CreateNewChatPage = ({users, createChatFunc, usersStatus}) => {
+const CreateNewChatPage = ({users, createChatFunc, searchFunc}) => {
     return (
         <div className={styles.createNewChat}>
             <header className={styles.createNewChat__header}>
@@ -17,28 +17,32 @@ const CreateNewChatPage = ({users, createChatFunc, usersStatus}) => {
                   <h2 className={styles.createNewChat__title}>Create new chat</h2>
                 </div>
                 <Form className={styles.createNewChat__searchForm}>
-                  <Input placeholder='Search' className={styles.createNewChat__searchInput}/>
+                    <Input 
+                        onChange={(event) => searchFunc(event.target.value)} 
+                        placeholder='Search' 
+                        className={styles.createNewChat__searchInput}
+                    />
                 </Form>
             </header>
             <section className={styles.createNewChat__users}>
                 {users && users.map((user) => 
                     <Link to='/' onClick={() => createChatFunc(user)} style={{textDecoration: 'none'}}>
                         <div className={styles.createNewChat__user}>
-                            <Status isOnline={true}>                                
+                            <Status isOnline={user.precenseData.state == 'online' ? true : false}>                                
                                 <Avatar className={styles.createNewChat__userAvatar}/>
                             </Status>
                             <div className={styles.createNewChat__userInfo}>
                                 <p className={styles.createNewChat__userName}>{ user.login }</p>
-                                {/* <p className={styles.createNewChat__userDescription}>{ 
-                                    usersStatus.filter(userStatus => userStatus.uid == user.uid)[0].state == 'online' 
+                                <p className={styles.createNewChat__userDescription}>{ 
+                                    user.precenseData.state == 'online' 
                                     ?
                                     'online' 
                                     : 
-                                    <div>
+                                    <>
                                         <span>Was online at </span>
-                                        <Time date={usersStatus.filter(userStatus => userStatus.uid == user.uid)[0].last_changed} />
-                                    </div>
-                                }</p> */}
+                                        <Time date={user.precenseData.last_changed} />
+                                    </>
+                                }</p> 
                             </div>
                         </div>
                     </Link>

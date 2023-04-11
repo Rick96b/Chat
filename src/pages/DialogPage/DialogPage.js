@@ -2,6 +2,7 @@ import { DialogHeader, DialogChannels, MessagesList, MessageInput } from 'contai
 import React, { useRef } from 'react';
 
 import styles from './DialogPage.module.scss';
+import { RootStore } from 'store';
 
 const DialogPage = ({ messages }) => {
     const pageRef = useRef()
@@ -23,7 +24,9 @@ const DialogPage = ({ messages }) => {
             <div className={styles.messageListContainer} ref={messageListRef}>
                 <MessagesList messages={messages}/>
             </div>
-            <DialogChannels />
+            {RootStore.dialogStore.currentDialog.isGroup && 
+                <DialogChannels />
+            }
             <MessageInput resizeFunc={inputResize.bind(this)}/>
         </div>
     );

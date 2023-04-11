@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { getCurrentDialog, addMessage, changeLastChatMessage, readCurrentMessage, AddPinnedDialog } from "firebaseCore/controllers";
-import addUnreadCount from "firebaseControllers/firestoreControllers/changeChatUnreads";
-import { addChannelToChat, addChatToChatsRelations, addChatToDatabase, getChatsRelations, getUserDataByUid, getUserDialogs  } from "firebaseControllers/firestoreControllers";
+import { addChannelToChat, addChatToChatsRelations, removePinnedDialog, addChatToDatabase, getChatsRelations, getUserDialogs, addPinnedDialog, removeChatFromDatabase, removeChatFromChatsRelations, removeChannelFromChat  } from "firebaseControllers/firestoreControllers";
 import { listenForUserChatsRelations, listenForUserDialogs } from "firebaseControllers/firestoreListeners";
 import { generateUniqueUUID } from "utils";
 
@@ -76,19 +74,29 @@ class Dialogs {
     }
     
     pinDialog(dialogId) {
-        console.log(this.rootStore.usersStore.currentUser.uid, dialogId)
-        AddPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
+        addPinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
+    }
+
+    unpinDialog(dialogId) {
+        removePinnedDialog(this.rootStore.usersStore.currentUser.uid, dialogId)
     }
 
     createNewChat(chat, authorizedUserUid, partnerUid) {
         const id = generateUniqueUUID();
-        console.log('what')
         addChatToDatabase(chat, id).then(() => {
             addChannelToChat(id, 'General')
             addChatToChatsRelations(authorizedUserUid, id);
             addChatToChatsRelations(partnerUid, id);
-        })
+        })     
+    }
 
+    deleteChat(chat, partnerUid) {
+        chat.channels.forEach(channelId => {
+            removeChannelFromChat(chat.id, channelId);
+        })
+        removeChatFromDatabase(chat.id);
+        removeChatFromChatsRelations(partnerUid, chat.id);
+        removeChatFromChatsRelations(this.rootStore.usersStore.currentUser.uid, chat.id);
     }
 
     setActiveChannel(channelId) {

@@ -1,15 +1,17 @@
 import { Avatar, Button } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { Status, Time } from 'components';
-import { PushpinOutlined } from '@ant-design/icons';
+import { observer } from 'mobx-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './RecentDialog.module.scss';
-import { observer } from 'mobx-react';
+import { Status, Time } from 'components';
+import pin from 'assets/pin.svg';
+import unpin from 'assets/unpin.svg';
 
 
-const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, precenseData, dialogId, onPinButtonClick}, ref) => {
+const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, isPinned, precenseData, dialogId, onPinButtonClick, onDeleteButtonClick}, ref) => {
     return (
         <div className={styles.dialogContainer} ref={ref}>
             <Link to={`dialog/${dialogId}`} style={{ textDecoration: 'none', width: '100%' }}>
@@ -39,8 +41,16 @@ const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, precense
                 <li>
                     <Button 
                         className={styles.dialogButtons__button} 
-                        icon={<PushpinOutlined style={{color: 'white', fontSize: '22px'}}/>} 
-                        onClick={(event) => onPinButtonClick(event)}
+                        icon=<img src={isPinned ? unpin : pin}/>
+                        onClick={() => onPinButtonClick()}
+                    />
+                </li>
+                <li>
+                    <Button 
+                        className={styles.dialogButtons__button} 
+                        style={{backgroundColor: "#ff4d4f"}}
+                        icon={<DeleteOutlined style={{fontSize: '22px', color:'#fff'}}/>}
+                        onClick={() => onDeleteButtonClick()}
                     />
                 </li>
             </ul>

@@ -17,7 +17,7 @@ const RecentDialog = ({dialog}) => {
     const SwipeHandlers = useSwipeable({ 
         onSwipedLeft: 
         ({ event }) => {
-            event.currentTarget.style.transform = `translate3d(-60px, 0, 0)`;
+            event.currentTarget.style.transform = `translate3d(-128px, 0, 0)`;
         },         
         onSwipedRight:  
         ({ event }) => {
@@ -31,8 +31,14 @@ const RecentDialog = ({dialog}) => {
         dialogRef.current = el;
     }
 
-    const pinButtonClick = (event) => {
-        RootStore.dialogsStore.pinDialog(dialog.id)
+    const pinButtonClick = () => {
+        if(dialog.isPinned) RootStore.dialogsStore.unpinDialog(dialog.id)
+        else RootStore.dialogsStore.pinDialog(dialog.id)   
+        dialogRef.current.style.transform = `translate3d(0, 0, 0)`;
+    }
+
+    const deleteButtonClick = () => {
+        RootStore.dialogsStore.deleteChat(dialog, partnerData.uid)   
         dialogRef.current.style.transform = `translate3d(0, 0, 0)`;
     }
     
@@ -40,10 +46,12 @@ const RecentDialog = ({dialog}) => {
         <BaseDialog
             name={partnerData.login}
             lastMessage={dialog.lastMessage}
-            unreadCount={dialog.unreads[RootStore.usersStore.currentUser.uid]}
+            unreadCount={dialog.unreads}
             precenseData={partnerData.precenseData}
             dialogId={dialog.id}
             onPinButtonClick={pinButtonClick}
+            onDeleteButtonClick={deleteButtonClick}
+            isPinned={dialog.isPinned}
             ref={refPassthrough}
         />
     );

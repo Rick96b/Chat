@@ -13,16 +13,24 @@
     height: 100%;
 
     &__button {
-        border: 0;
-        box-shadow: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 64px !important;
         height: 100%;
         background-color: $mainActiveColor;
         border: none;
+        box-shadow: none;
         border-radius: 0;
 
         &::after {
             box-shadow: none;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
         }
     }
 }
