@@ -23,6 +23,7 @@ export default withFormik({
         login: values.login,
         email: values.email,
         password: values.password,
+        description: '',
       }
       RootStore.usersStore.signUpUser(user).catch(error => {
         if(error.code == "auth/email-already-in-use") {

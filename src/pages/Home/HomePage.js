@@ -10,7 +10,7 @@ const Home = () => {
         <div className={styles.chatHome}>
               <PinnedDialogs/>
               <RecentDialogs/>
-              <BottomNavigation />
+              <BottomNavigation isMessageActive={true}/>
               <div className={styles.AddNewChatButton} >
                 <AddNewChatButton />
               </div>

@@ -1,0 +1,69 @@
+@import 'styles/variables.scss';
+
+.userEditPage {
+
+    &__backButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px !important;
+        height: 24px !important;
+        border: none;
+        box-shadow: none;
+        color: #4F5E7B;
+
+        svg {
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+
+    &__headerSettings {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 24px;
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 24px;
+        color: $titleTextColor;
+    }
+
+    &__headerUserSection {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 24px;
+    }
+
+    &__headerInfoToEdit {
+        display: flex;
+    }
+
+    &__headerAvatar {
+        width: 110px !important;
+        height: 110px !important;
+        margin-right: 24px;
+    }
+
+    &__headerUserInfo {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    &__headerUserName {
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    &__headerUserDescription {
+        font-family: $mainFontFamily;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    &__infoToEdit {
+        display: flex;
+    }
+}

@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import styles from './PinnedDialogs.module.scss';
 
 
-const PinnedDialogs = React.forwardRef(({ dialogs }, ref) => {
+const PinnedDialogs = React.forwardRef(({ dialogs, userAvatarUrl }, ref) => {
     return (
         <section className={styles.pinnedDialogs}>
                 <div className={styles.pinnedDialogs__header}>
                     <h2>Pinned Chats</h2>
-                    <Avatar className={styles.pinnedDialogs__avatar} />
+                    <Avatar className={styles.pinnedDialogs__avatar} src={userAvatarUrl} />
                 </div>
                 <div className={styles.pinnedDialogs__contentContainer}>
                     {dialogs.length

@@ -29,9 +29,10 @@ const PinnedDialogs = () => {
     }
 
     const pinnedDialogs = RootStore.dialogsStore.dialogs.filter(dialog => dialog.isPinned)
+    const userAvatarUrl = RootStore.usersStore.currentUser.avatar
 
     return (
-        <BaseDialogs dialogs={pinnedDialogs} {...SwipeHandlers} ref={refPassthrough}/>
+        <BaseDialogs dialogs={pinnedDialogs} userAvatarUrl={userAvatarUrl} {...SwipeHandlers} ref={refPassthrough}/>
     );
 };
 

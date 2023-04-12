@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { SmileOutlined, PaperClipOutlined, AudioFilled } from '@ant-design/icons';
+import React, { useRef } from 'react';
+import { SmileOutlined, PaperClipOutlined, AudioFilled, SendOutlined } from '@ant-design/icons';
 
 import styles from './MessageInput.module.scss';
 import { Button, Form } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { observer } from 'mobx-react';
-import { useForm } from 'antd/es/form/Form';
 
 
 const MessageInput = observer(({resizeFunc, onFinishFunc}) => {
@@ -33,7 +32,7 @@ const MessageInput = observer(({resizeFunc, onFinishFunc}) => {
                     <Button icon={<PaperClipOutlined />} className={styles.messageInput__fileButton}/>
                 </Form.Item>
                 <Form.Item  className={styles.messageInput__formItem}>
-                    <Button icon={<AudioFilled />} onClick={returnFocusOnTextArea} shape='circle' className={styles.messageInput__sendButton}  htmlType="submit"/>
+                    <Button icon={<SendOutlined />} onClick={returnFocusOnTextArea} shape='circle' className={styles.messageInput__sendButton}  htmlType="submit"/>
                 </Form.Item>
             </Form>
         </section>

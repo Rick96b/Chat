@@ -16,5 +16,6 @@ export {default as removePinnedDialog} from './removePinnedDialog';
 export {default as removeChatFromDatabase} from './removeChatFromDatabase';
 export {default as removeChatFromChatsRelations} from './removeChatFromChatsRelations';
 export {default as removeChannelFromChat} from './removeChannelFromChat';
+export {default as editUserInDatabase} from './editUserInDatabase';
 
 

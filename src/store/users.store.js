@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { getAllUsers, postUser } from "firebaseControllers/firestoreControllers";
+import { editUserInDatabase, getAllUsers, postUser } from "firebaseControllers/firestoreControllers";
 import { registerNewUser, signInUser } from "firebaseControllers/authControllers";
 import { listenForAllUsers } from "firebaseControllers/firestoreListeners";
 import { getPrecenseData, listenForUsersStatuses } from "firebaseControllers/realtimeDatabaseControllers";
@@ -74,6 +74,10 @@ class Users {
             }
             return user
         }))
+    }
+
+    editUser(newUserValues) {
+        editUserInDatabase(this.currentUser.uid, newUserValues)
     }
 
     setCurrentUser(user) {

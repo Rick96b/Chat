@@ -1,0 +1,45 @@
+@import 'styles/variables.scss';
+
+.userPage {
+
+
+    &__headerSettings {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 24px;
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 24px;
+        color: $titleTextColor;
+    }
+
+    &__headerUserSection {
+        display: flex;
+        padding: 12px 24px;
+    }
+
+    &__headerAvatar {
+        width: 64px;
+        height: 64px;
+        margin-right: 24px;
+    }
+
+    &__headerUserInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    &__headerUserName {
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    &__headerUserDescription {
+        font-family: $mainFontFamily;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+}
