@@ -11,13 +11,13 @@ import pin from 'assets/pin.svg';
 import unpin from 'assets/unpin.svg';
 
 
-const RecentDialog = React.forwardRef(({name, lastMessage, unreadCount, isPinned, precenseData, dialogId, onPinButtonClick, onDeleteButtonClick}, ref) => {
+const RecentDialog = React.forwardRef(({name, avatar, lastMessage, unreadCount, isPinned, precenseData, dialogId, onPinButtonClick, onDeleteButtonClick}, ref) => {
     return (
         <div className={styles.dialogContainer} ref={ref}>
             <Link to={`dialog/${dialogId}`} style={{ textDecoration: 'none', width: '100%' }}>
                 <div className={styles.dialog}>
                     <Status isOnline={precenseData && precenseData.state == 'online' ? true : false}>
-                        <Avatar className={styles.dialog__avatar} />
+                        <Avatar className={styles.dialog__avatar} src={avatar}/>
                     </Status>
                     <div className={styles.dialog__content}>
                         <div className={styles.dialog__top}>

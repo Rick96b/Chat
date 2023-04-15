@@ -48,7 +48,6 @@ const UserEditPage = ({onFinish, getBase64, initialValues}) => {
                         <Link to='/userInfo' style={{textDecoration: 'none'}}>
                             <Button icon={<ArrowLeftOutlined />} className={styles.userEditPage__backButton}/>
                         </Link>
-                        <p>Settings</p>
                     </div>
                     <Form 
                         name="editUser"

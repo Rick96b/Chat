@@ -10,7 +10,7 @@ const PinnedDialog = ({ name, avatar, lastMessage, isOnline, isUnreadMessages })
         <div className={classNames(styles.pinnedDialog, isUnreadMessages ? styles.unread : '')}>
             <div className={styles.partnerInfo}>
                 <Status isOnline={isOnline}>
-                    <Avatar className={styles.partnerAvatar}/>
+                    <Avatar className={styles.partnerAvatar} src={avatar}/>
                 </Status>
                 <p className={styles.partnerName}>{ name }</p>
             </div>

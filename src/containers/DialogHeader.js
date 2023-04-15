@@ -8,7 +8,11 @@ const DialogHeader = () => {
     const partnerData = RootStore.usersStore.allUsers.filter(user => user.uid == partnerUid)[0];
 
     return (
-        <BaseDialogHeader dialogName={partnerData.login} onlineData={partnerData.precenseData}/>
+        <BaseDialogHeader 
+            dialogName={partnerData.login} 
+            onlineData={partnerData.precenseData}
+            avatar={partnerData.avatar}
+        />
     );
 };
 

@@ -48,6 +48,7 @@ const RecentDialog = ({dialog}) => {
             lastMessage={dialog.lastMessage}
             unreadCount={dialog.unreads}
             precenseData={partnerData.precenseData}
+            avatar={partnerData.avatar}
             dialogId={dialog.id}
             onPinButtonClick={pinButtonClick}
             onDeleteButtonClick={deleteButtonClick}

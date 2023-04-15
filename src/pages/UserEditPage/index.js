@@ -21,7 +21,6 @@ const getBase64 = (file) =>
 
 
 const UserEditPage = () => {
-
   const onFinish = (values, file) => {
     uploadFile(file).then(() => {
       getDownloadURL(ref(storage, `avatars/${file.name}`)).then((url) => {

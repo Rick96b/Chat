@@ -1,7 +1,13 @@
 @import 'styles/variables.scss';
 
 .userPage {
+    height: calc(100% - 53px);
+    display: flex;
+    flex-direction: column;
 
+    &__header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
     &__headerSettings {
         display: flex;
@@ -15,16 +21,18 @@
 
     &__headerUserSection {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         padding: 12px 24px;
     }
 
     &__headerAvatar {
-        width: 64px;
-        height: 64px;
-        margin-right: 24px;
+        width: 110px;
+        height: 110px;
     }
 
     &__headerUserInfo {
+        margin-top: 10px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -32,11 +40,32 @@
 
     &__headerUserName {
         font-family: $mainFontFamily;
-        font-size: 18px;
-        line-height: 24px;
+        font-size: 24px;
+        line-height: 36px;
+        text-align: center;
     }
 
     &__headerUserDescription {
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    &__awaiting {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__awaitingIcon {
+        font-size: 48px;
+        color: $mainActiveColor;
+    }
+
+    &__awaitingText {
+        margin-top: 5px;
         font-family: $mainFontFamily;
         font-size: 14px;
         line-height: 21px;

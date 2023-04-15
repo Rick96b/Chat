@@ -6,14 +6,14 @@ import { ArrowLeftOutlined, MoreOutlined } from '@ant-design/icons';
 import styles from './DialogHeader.module.scss';
 import Time from 'components/Time';
 
-const DialogHeader = ({ dialogName, onlineData }) => {
+const DialogHeader = ({ dialogName, onlineData, avatar }) => {
     return (
         <section className={styles.dialogHeader}>
             <Link to='/' style={{textDecoration: 'none'}}>
                 <Button icon={<ArrowLeftOutlined />} className={styles.dialogHeader__backButton}/>
             </Link>
             <div className={styles.dialogHeader__contentContainer}>
-                <Avatar className={styles.dialogHeader__avatar} />
+                <Avatar className={styles.dialogHeader__avatar} src={avatar}/>
                 <div className={styles.dialogHeader__textContainer}>
                     <h2 className={styles.dialogHeader__dialogName}>{dialogName}</h2>
                     {
