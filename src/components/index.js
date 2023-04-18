@@ -15,4 +15,7 @@ export {default as MessagesBlock} from './MessagesBlock';
 export {default as LoginForm} from './LoginForm';
 export {default as RegisterForm} from './RegisterForm';
 export {default as Loader} from './Loader';
+export {default as UserEditModal} from './UserEditModal';
+export {default as UserInfoModal} from './UserInfoModal';
+export {default as UserModal} from './UserModal';
 

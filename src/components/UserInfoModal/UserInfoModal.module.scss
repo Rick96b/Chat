@@ -1,0 +1,34 @@
+@import 'styles/variables.scss';
+
+.userPage {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__headerAvatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    &__headerUserInfo {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    &__headerUserName {
+        font-family: $mainFontFamily;
+        font-size: 24px;
+        line-height: 36px;
+        text-align: center;
+    }
+
+    &__headerUserDescription {
+        font-family: $mainFontFamily;
+        font-size: 18px;
+        line-height: 27px;
+        text-align: center;
+    }
+}

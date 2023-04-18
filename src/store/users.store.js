@@ -67,10 +67,13 @@ class Users {
         this.setAllUsers(this.allUsers.filter(user => user.uid != userToRemove.uid))
     }
 
-    modifyUserInAllUsers(userToModify) {
+    async modifyUserInAllUsers(userToModify) {
+        if(!userToModify.precenseData) {
+            userToModify.precenseData = await getPrecenseData(userToModify.uid);
+        }
         this.setAllUsers(this.allUsers.map(user => {
             if(user.uid == userToModify.uid) {
-                return userToModify
+                return userToModify;
             }
             return user
         }))

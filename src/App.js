@@ -3,8 +3,6 @@ import { Route, Routes } from "react-router-dom";
 
 import CreateGroupChat from "pages/CreateGroupChat";
 import CreateNewChatPage from "pages/CreateNewChatPage";
-import UserInformationPage from 'pages/UserInformationPage';
-import UserEditPage from 'pages/UserEditPage';
 import DialogPage  from "pages/DialogPage";
 import HomePage from "pages/Home";
 import AuthPage from "pages/AuthPage";
@@ -49,8 +47,6 @@ const App = () => {
             <Route path=":dialogId" element={<DialogPage />} />
           </Route>
           <Route path='createChat' element={<CreateNewChatPage />} />
-          <Route path='userInfo' element={<UserInformationPage authorizedUser={RootStore.usersStore.currentUser}/>} />
-          <Route path='userInfoEdit' element={<UserEditPage />} />
           <Route path='*' element={<HomePage user={user}/>} />
       </Routes>
       :

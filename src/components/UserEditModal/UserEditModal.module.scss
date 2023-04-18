@@ -2,32 +2,6 @@
 
 .userEditPage {
 
-    &__backButton {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px !important;
-        height: 24px !important;
-        border: none;
-        box-shadow: none;
-        color: #4F5E7B;
-
-        svg {
-            width: 1.3em;
-            height: 1.3em;
-        }
-    }
-
-    &__headerSettings {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 24px;
-        font-family: $mainFontFamily;
-        font-size: 18px;
-        line-height: 24px;
-        color: $titleTextColor;
-    }
-
     &__headerUserSection {
         display: flex;
         flex-direction: column;

@@ -8,3 +8,6 @@ export {default as MessageInput} from './MessageInput';
 export {default as RegisterForm} from './RegisterForm';
 export {default as LoginForm} from './LoginForm';
 export {default as DialogHeader} from './DialogHeader';
+export {default as UserEditModal} from './UserEditModal';
+export {default as UserInfoModal} from './UserInfoModal';
+export {default as UserModal} from './UserModal';
