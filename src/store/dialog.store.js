@@ -4,7 +4,6 @@ import { listenForDialogChannelMessages } from 'firebaseControllers/firestoreLis
 import { addMessageToChannel, getDialogChannelMessages, changeChatUnreads, changeMessageReadedData, changeLastChatMessage } from 'firebaseControllers/firestoreControllers';
 
 class Dialog {
-    initialized = false;
     messages = {};
     currentDialog = {};
     currentChannel = 'General';
@@ -32,7 +31,6 @@ class Dialog {
                 })
             })
         })
-        this.setInitialized();
     }
 
     addMessageToMessages(channelId, messageToAdd) {

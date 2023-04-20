@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import {useCollectionData} from 'react-firebase-hooks/firestore'
 
 import {default as BasePage} from './DialogPage';
 import { RootStore } from 'store';
-import { db } from 'firebaseCore';
-import { collection, orderBy, query } from 'firebase/firestore';
 
 const DialogPage = () => {
+    const [initializeDialog, setInitializeDialog] = useState(false)
     let dialogId = useParams().dialogId;
     const messages = RootStore.dialogStore.messages[RootStore.dialogStore.currentChannel] ?
         RootStore.dialogStore.messages[RootStore.dialogStore.currentChannel] : [];
 
-    if(!RootStore.dialogStore.initialized) {
-        RootStore.dialogStore.initializeStore(dialogId);
-    } else {
+
+    if(!RootStore.dialogStore.currentDialog ||
+        RootStore.dialogStore.currentDialog && 
+        RootStore.dialogStore.currentDialog.id !== dialogId
+        ) 
+    {
+        setInitializeDialog(true)
+        RootStore.dialogStore.initializeStore(dialogId).then(() => setInitializeDialog(false));
+    } else if (!initializeDialog)
+    {
         return <BasePage messages={messages}/>
     }
 

@@ -3,7 +3,7 @@ import React from 'react';
 
 import styles from './TextMessage.module.scss';
 
-const TextMessage = ({ isMe, isGroup, date, text, author, isAdmin}) => {
+const TextMessage = ({ isMe, isGroup, date, text, author, isAdmin, isReaded}) => {
     return (
         <div className={classNames(styles.textMessage, isMe ? styles.textMessageMe : '')}>
             <div className={styles.textMessage__container}>
@@ -20,6 +20,10 @@ const TextMessage = ({ isMe, isGroup, date, text, author, isAdmin}) => {
                 </p>
                 <span className={styles.textMessage__date}>{ date }</span>
             </div>
+            {
+                !isReaded && isMe &&
+                <span className={styles.textMessage__readedIndicator} />
+            }
         </div>
     );
 };

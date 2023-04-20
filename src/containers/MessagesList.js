@@ -18,7 +18,11 @@ const MessagesList = ({ messages }) => {
     if(messages) {
         let correctMessages = [];
         messages.forEach((message) => {
-            const correctMessage = ChooseCorrectMessageType(message, RootStore.usersStore.currentUser.uid);
+            const refactoredMessage = {...message,  
+                isMe: message.author == RootStore.usersStore.currentUser.uid ? true : false,
+                isReaded: Object.values(message.readed).every(item => item)
+            }
+            const correctMessage = ChooseCorrectMessageType(refactoredMessage, RootStore.usersStore.currentUser.uid);
             if(correctMessage) correctMessages.push(correctMessage);
         })
 

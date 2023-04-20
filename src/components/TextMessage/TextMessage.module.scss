@@ -1,6 +1,7 @@
 @import 'styles/variables.scss';
 
 .textMessage {
+    position: relative;
     $self: &;
     display: flex;
     margin: 4px 8px;
@@ -64,5 +65,19 @@
         font-size: 12px;
         line-height: 16px;
         color: #A1A1BC;
+    }
+
+    &__readedIndicator {
+        position: absolute;
+        right: 0;
+        bottom: -5px;
+
+        width: 10px;
+        height: 10px;
+
+        border-radius: 5px;
+        border: 1px solid #fff;
+
+        background-color: $mainActiveColor;
     }
 }

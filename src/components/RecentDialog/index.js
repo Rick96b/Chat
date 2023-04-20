@@ -12,6 +12,7 @@ import unpin from 'assets/unpin.svg';
 
 
 const RecentDialog = React.forwardRef(({name, avatar, lastMessage, unreadCount, isPinned, precenseData, dialogId, onPinButtonClick, onDeleteButtonClick}, ref) => {
+
     return (
         <div className={styles.dialogContainer} ref={ref}>
             <Link to={`dialog/${dialogId}`} style={{ textDecoration: 'none', width: '100%' }}>

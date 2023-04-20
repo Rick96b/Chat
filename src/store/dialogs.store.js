@@ -33,6 +33,9 @@ class Dialogs {
                 if(change.type === 'modified') {
                     this.addRelatedDataToDialog(change.doc)
                 }
+                if(change.type === 'added') {
+                    this.addRelatedDataToDialog(change.doc)
+                }
             })
         })
     }
@@ -58,7 +61,7 @@ class Dialogs {
     modifyDialogInDialogs(dialogToModify) {
         this.setDialogs(this.dialogs.map(dialog => {
             if(dialog.id == dialogToModify.id) {
-                return dialogToModify
+                return {...dialog, ...dialogToModify}
             }
             return dialog
         }))

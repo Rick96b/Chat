@@ -7,6 +7,7 @@ import styles from './CreateNewChatPage.module.scss';
 import { Link } from 'react-router-dom';
 
 const CreateNewChatPage = ({users, createChatFunc, searchFunc}) => {
+    console.log(users)
     return (
         <div className={styles.createNewChat}>
             <header className={styles.createNewChat__header}>
@@ -29,7 +30,7 @@ const CreateNewChatPage = ({users, createChatFunc, searchFunc}) => {
                     <Link to='/' onClick={() => createChatFunc(user)} style={{textDecoration: 'none'}}>
                         <div className={styles.createNewChat__user}>
                             <Status isOnline={user.precenseData.state == 'online' ? true : false}>                                
-                                <Avatar className={styles.createNewChat__userAvatar}/>
+                                <Avatar src={user.avatar} className={styles.createNewChat__userAvatar}/>
                             </Status>
                             <div className={styles.createNewChat__userInfo}>
                                 <p className={styles.createNewChat__userName}>{ user.login }</p>

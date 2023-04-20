@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 
 import styles from './DialogPage.module.scss';
 import { RootStore } from 'store';
+import { observer } from 'mobx-react';
 
 const DialogPage = ({ messages }) => {
     const pageRef = useRef()
@@ -17,7 +18,7 @@ const DialogPage = ({ messages }) => {
         }
         messageListRef.current.style.height = `${pageRef.current.offsetHeight - height}px`;
     }
-
+    
     return (
         <div className={styles.dialogPage} ref={pageRef}>
             <DialogHeader />
@@ -32,4 +33,4 @@ const DialogPage = ({ messages }) => {
     );
 };
 
-export default DialogPage
+export default observer(DialogPage)
