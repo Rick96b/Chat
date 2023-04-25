@@ -87,7 +87,6 @@ class Dialogs {
     createNewChat(chat, authorizedUserUid, partnerUid) {
         const id = generateUniqueUUID();
         addChatToDatabase(chat, id).then(() => {
-            addChannelToChat(id, 'General')
             addChatToChatsRelations(authorizedUserUid, id);
             addChatToChatsRelations(partnerUid, id);
         })     

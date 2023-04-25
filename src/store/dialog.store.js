@@ -1,10 +1,10 @@
 import {makeAutoObservable} from 'mobx';
 
 import { listenForDialogChannelMessages } from 'firebaseControllers/firestoreListeners';
-import { addMessageToChannel, getDialogChannelMessages, changeChatUnreads, changeMessageReadedData, changeLastChatMessage } from 'firebaseControllers/firestoreControllers';
+import { addMessageToChannel, changeChatUnreads, changeMessageReadedData, changeLastChatMessage } from 'firebaseControllers/firestoreControllers';
 
 class Dialog {
-    messages = {};
+    messages = {General: []};
     currentDialog = {};
     currentChannel = 'General';
 
@@ -15,7 +15,6 @@ class Dialog {
 
     async initializeStore(dialogId) {
         this.setCurrentDialog(this.rootStore.dialogsStore.dialogs.find(dialog => dialog.id == dialogId));
-        this.setMessages(this.currentChannel, await getDialogChannelMessages(this.currentChannel, dialogId));
         this.currentDialog.channels.forEach(channel => {
             listenForDialogChannelMessages(dialogId, channel, (snapshot) => {
                 snapshot.docChanges().forEach(change => {
@@ -30,11 +29,11 @@ class Dialog {
                     }
                 })
             })
-        })
+        }) 
     }
 
     addMessageToMessages(channelId, messageToAdd) {
-        if(!this.messages[channelId].filter(message => message.id == messageToAdd.id)[0]) {
+        if(!this.messages[channelId].length || !this.messages[channelId].filter(message => message.id == messageToAdd.id)[0]) {
             this.pushMessage(channelId, messageToAdd.data()) 
         }
     }

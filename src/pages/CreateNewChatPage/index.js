@@ -31,7 +31,7 @@ const CreateNewChatPage = () => {
       lastMessage: '',
       isGroup: false,
       partners: [user.uid, RootStore.usersStore.currentUser.uid],
-      channels: [],
+      channels: ['General'],
     }
     RootStore.dialogsStore.createNewChat(dialog, RootStore.usersStore.currentUser.uid, user.uid)
   }

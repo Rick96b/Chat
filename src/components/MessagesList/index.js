@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { createRef, useEffect } from 'react';
+import React, { createRef, useLayoutEffect } from 'react';
 
 import styles from './MessageList.module.scss';
 
@@ -7,13 +7,16 @@ const MessagesList = ({ items, MessagesReadFunc }) => {
     let messageListRef = createRef();
 
     const scrollToBottom = () => {
-        messageListRef.current?.scrollBy(0,
-            Math.max(
-                messageListRef.current.scrollHeight,
-                messageListRef.current.offsetHeight,
-                messageListRef.current.clientHeight
-            )
-        );
+        console.log(Math.max(
+            messageListRef.current.scrollHeight,
+            messageListRef.current.offsetHeight,
+            messageListRef.current.clientHeight
+        ))
+        messageListRef.current.scrollBy(0, Math.max(
+            messageListRef.current.scrollHeight,
+            messageListRef.current.offsetHeight,
+            messageListRef.current.clientHeight
+        ))
     }
 
     const checkVisibilityOfItems = (ref, items) => {
@@ -29,7 +32,7 @@ const MessagesList = ({ items, MessagesReadFunc }) => {
     }
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         messageListRef.current.addEventListener('scroll', checkVisibilityOfItems(messageListRef, items))
         scrollToBottom();
     })

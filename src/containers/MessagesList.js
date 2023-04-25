@@ -9,7 +9,6 @@ const MessagesList = ({ messages }) => {
     const MessagesReadFunc = (messages) => {
         messages.forEach(message => {
             if(message.props.readed[RootStore.usersStore.currentUser.uid] === false) {
-                console.log(RootStore.usersStore.currentUser.uid)
                 RootStore.dialogStore.readMessage(message.props)
             }
         })
