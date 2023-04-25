@@ -3,37 +3,35 @@ import React, { createRef, useLayoutEffect } from 'react';
 
 import styles from './MessageList.module.scss';
 
-const MessagesList = ({ items, MessagesReadFunc }) => {
+const MessagesList = ({ items, MessagesReadFunc, userUid }) => {
     let messageListRef = createRef();
 
     const scrollToBottom = () => {
-        console.log(Math.max(
-            messageListRef.current.scrollHeight,
-            messageListRef.current.offsetHeight,
-            messageListRef.current.clientHeight
-        ))
         messageListRef.current.scrollBy(0, Math.max(
             messageListRef.current.scrollHeight,
             messageListRef.current.offsetHeight,
             messageListRef.current.clientHeight
         ))
     }
-
     const checkVisibilityOfItems = (ref, items) => {
-        const messageListOffsets = ref.current.getBoundingClientRect()
-        let newItems = [];
-        items.forEach((item, index) => {
-            const itemOffsets = ref.current.childNodes[index].getBoundingClientRect()
-            if(messageListOffsets.height + messageListOffsets.top >= itemOffsets.height + itemOffsets.top) {
-                newItems.push(item)
-            }
-        })
-        MessagesReadFunc(newItems)
+        if(ref.current) {
+            const messageListOffsets = ref.current.getBoundingClientRect()
+            let newItems = [];
+            items.forEach((item, index) => {
+                if (item.props.author != userUid && !Object.values(item.props.readed).every(item => item)) {
+                    const itemOffsets = ref.current.childNodes[index].getBoundingClientRect()
+                    if(messageListOffsets.height + messageListOffsets.top >= itemOffsets.height + itemOffsets.top) {
+                        newItems.push(item)
+                    }
+                }
+            })
+            MessagesReadFunc(newItems)
+        }
     }
 
 
     useLayoutEffect(() => {
-        messageListRef.current.addEventListener('scroll', checkVisibilityOfItems(messageListRef, items))
+        messageListRef.current.addEventListener('scroll', () => checkVisibilityOfItems(messageListRef, items))
         scrollToBottom();
     })
 

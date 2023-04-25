@@ -28,17 +28,29 @@ const MessagesList = ({ messages }) => {
         if (RootStore.dialogsStore.currentDialog.isGroup) {
             let blocksOfMessages = SeparateMessagesOnBlocks(correctMessages)
             return (
-                <BaseList items={blocksOfMessages}  MessagesReadFunc={MessagesReadFunc}/>
+                <BaseList 
+                    items={blocksOfMessages}  
+                    MessagesReadFunc={MessagesReadFunc}
+                    userUid={RootStore.usersStore.currentUser.uid}
+                />
             );
         }
 
         return (
-            <BaseList items={correctMessages}  MessagesReadFunc={MessagesReadFunc}/>
+            <BaseList 
+                items={correctMessages}  
+                MessagesReadFunc={MessagesReadFunc} 
+                userUid={RootStore.usersStore.currentUser.uid}
+            />
         )
     }
 
     return (
-        <BaseList items={[]} MessagesReadFunc={MessagesReadFunc}/>
+        <BaseList 
+            items={[]} 
+            MessagesReadFunc={MessagesReadFunc}
+            userUid={RootStore.usersStore.currentUser.uid}
+        />
     )
    
 };
