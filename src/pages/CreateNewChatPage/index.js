@@ -35,7 +35,7 @@ const CreateNewChatPage = () => {
     }
     RootStore.dialogsStore.createNewChat(dialog, RootStore.usersStore.currentUser.uid, user.uid)
   }
-
+  console.log(users)
   return (
       <BaseCreateNewChatPage users={users} createChatFunc={createChatFunc} searchFunc={searchFunc}/>
   );

@@ -1,7 +1,7 @@
 import { Avatar, Button } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeftOutlined, MoreOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 import styles from './DialogHeader.module.scss';
 import Time from 'components/Time';
@@ -25,7 +25,6 @@ const DialogHeader = ({ dialogName, onlineData, avatar }) => {
                     }
                 </div>
             </div>
-            <Button icon={<MoreOutlined />} className={styles.dialogHeader__moreButton}/>
         </section>
     );
 };

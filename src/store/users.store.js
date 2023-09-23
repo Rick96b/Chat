@@ -46,7 +46,7 @@ class Users {
     }
 
     changeUserPrecenseData(userUid, precenseData) {
-        const userToModify = this.allUsers.filter(user => user.uid == userUid)[0]
+        const userToModify = this.allUsers.filter(user => user.uid === userUid)[0]
         this.modifyUserInAllUsers({...userToModify, precenseData:precenseData})
     }
 

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { addChannelToChat, addChatToChatsRelations, removePinnedDialog, addChatToDatabase, getChatsRelations, getUserDialogs, addPinnedDialog, removeChatFromDatabase, removeChatFromChatsRelations, removeChannelFromChat  } from "firebaseControllers/firestoreControllers";
+import { addChatToChatsRelations, removePinnedDialog, addChatToDatabase, getChatsRelations, getUserDialogs, addPinnedDialog, removeChatFromDatabase, removeChatFromChatsRelations, removeChannelFromChat  } from "firebaseControllers/firestoreControllers";
 import { listenForUserChatsRelations, listenForUserDialogs } from "firebaseControllers/firestoreListeners";
 import { generateUniqueUUID } from "utils";
 
